@@ -17,8 +17,7 @@
     <Product>ForgedCurse</Product>
     <PackageId>ForgedCurse</PackageId>
     <Version>1.0.0</Version>
-    <PackageLicenseUrl>https://github.com/AndrewToaster/ForgedCurse/raw/main/LICENSE</PackageLicenseUrl>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Company>Andrew Toasterr</Company>
     <PackageIconUrl>https://github.com/AndrewToaster/ForgedCurse/raw/main/Icon.png</PackageIconUrl>
   </PropertyGroup>
