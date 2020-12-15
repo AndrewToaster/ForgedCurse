@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Authors>Andrew Toasterr</Authors>
+    <PackageTags>C#, API, CurseForge, Minecraft, Modded, Modifications</PackageTags>
+    <Description>A C# wrapper around the CurseForge API</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.0" />
+  </ItemGroup>
+
+</Project>
