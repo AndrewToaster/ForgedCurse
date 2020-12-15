@@ -1,9 +1,0 @@
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\bin\Debug\netcoreapp3.1\ForgedCurse.deps.json
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\bin\Debug\netcoreapp3.1\ForgedCurse.dll
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\obj\Debug\netcoreapp3.1\ForgedCurse.csprojAssemblyReference.cache
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\obj\Debug\netcoreapp3.1\ForgedCurse.AssemblyInfoInputs.cache
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\obj\Debug\netcoreapp3.1\ForgedCurse.AssemblyInfo.cs
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\bin\Debug\netcoreapp3.1\ForgedCurse.pdb
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\obj\Debug\netcoreapp3.1\ForgedCurse.csproj.CoreCompileInputs.cache
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\obj\Debug\netcoreapp3.1\ForgedCurse.dll
-D:\Users\cripe\source\repos\ForgedCurse\ForgedCurse\obj\Debug\netcoreapp3.1\ForgedCurse.pdb
