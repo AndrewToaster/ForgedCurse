@@ -52,7 +52,7 @@ namespace ForgedCurse
             RetryPolicy = new RetryPolicy(5, 5000, ex => throw ex);
         }
 
-        #region Addon HTTP
+        #region Addon
 
         /// <summary>
         /// Retries the information about a addon specified using an id
@@ -174,7 +174,7 @@ namespace ForgedCurse
         /// <returns>The information of the addon's file</returns>
         public async Task<CurseJSON.AddonFile> GetAddonFileAsync(string addonId, string fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_CHANGE, addonId, fileId)));
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE, addonId, fileId)));
             var resp = result.Value.EnsureSuccessStatusCode();
 
             return await resp.ParseJsonAsync<CurseJSON.AddonFile>();
@@ -188,6 +188,30 @@ namespace ForgedCurse
         public CurseJSON.AddonFile GetAddonFile(string addonId, string fileId)
         {
             return AsyncContext.Run(() => GetAddonFileAsync(addonId, fileId));
+        }
+
+        /// <summary>
+        /// Retries the addon's file download url
+        /// </summary>
+        /// <param name="addonId">The identification of the addon</param>
+        /// <param name="fileId">The identification of the addon's file</param>
+        /// <returns>The URL for the download</returns>
+        public async Task<string> GetAddonFileUrlAsync(string addonId, string fileId)
+        {
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_DOWNLOAD, addonId, fileId)));
+            var resp = result.Value.EnsureSuccessStatusCode();
+
+            return await resp.Content.ReadAsStringAsync();
+        }
+        /// <summary>
+        /// Retries the addon's file download url
+        /// </summary>
+        /// <param name="addonId">The identification of the addon</param>
+        /// <param name="fileId">The identification of the addon's file</param>
+        /// <returns>The URL for the download</returns>
+        public string GetAddonUrlFile(string addonId, string fileId)
+        {
+            return AsyncContext.Run(() => GetAddonFileUrlAsync(addonId, fileId));
         }
 
         /// <summary>
@@ -225,11 +249,11 @@ namespace ForgedCurse
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
-        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
+        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
         public async Task<CurseJSON.AddonInfo[]> SearchAddonsAsync(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
-            string url = Utilities.BuildAddonSearchUrl(gameVersion, addonName, offset, amount, category, sorting, kind);
+            string url = AddonSearchData.BuildSearchUrl(gameVersion, addonName, offset, amount, category, sorting, kind);
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url));
             var resp = result.Value.EnsureSuccessStatusCode();
 
@@ -248,11 +272,60 @@ namespace ForgedCurse
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
-        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
+        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
         public CurseJSON.AddonInfo[] SearchAddons(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(addonName, gameVersion, amount, offset, kind, category, sorting));
+        }
+        /// <summary>
+        /// Queries addons using the specified options
+        /// </summary>
+        /// <param name="data">Data structure containing the information for querying addons</param>
+        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
+        public async Task<CurseJSON.AddonInfo[]> SearchAddonsAsync(AddonSearchData data)
+        {
+            string url = data.BuildSearchUrl();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url));
+            var resp = result.Value.EnsureSuccessStatusCode();
+
+            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>();
+        }
+        /// <summary>
+        /// Queries addons using the specified options
+        /// </summary>
+        /// <param name="data">Data structure containing the information for querying addons</param>
+        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
+        public CurseJSON.AddonInfo[] SearchAddons(AddonSearchData data)
+        {
+            return AsyncContext.Run(() => SearchAddonsAsync(data));
+        }
+
+        /// <summary>
+        /// Constructs a new <see cref="AddonSearchIterator"/> for querying addons from the API
+        /// </summary>
+        /// <param name="addonName">The name filter. If <see langword="null"/> or <see cref="String.Empty"/>, ignores this filter option</param>
+        /// <param name="gameVersion">The game version filter. If <see langword="null"/> or <see cref="String.Empty"/>, ignores this filter option</param>
+        /// <param name="amount">The amount of mods to retrieve</param>
+        /// <param name="offset">The amount of mods to skip (e.g: You retrieve 10, but skip 3. You skip the first 3 mods in the list, then retrieve 10</param>
+        /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
+        /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
+        /// <param name="sorting">The method of sorting the addons from which to query</param>
+        /// <returns>The constructed iterator</returns>
+        public AddonSearchIterator CreateAddonIterator(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
+            AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
+        {
+            return new AddonSearchIterator(addonName, gameVersion, amount, offset, kind, category, sorting);
+        }
+
+        /// <summary>
+        /// Constructs a new <see cref="AddonSearchIterator"/> for querying addons from the API
+        /// </summary>
+        /// <param name="data">The data for the querying</param>
+        /// <returns>The constructed iterator</returns>
+        public AddonSearchIterator CreateAddonIterator(AddonSearchData data)
+        {
+            return new AddonSearchIterator(data);
         }
 
         /// <summary>
@@ -288,7 +361,7 @@ namespace ForgedCurse
 
         #endregion
 
-        #region Version HTTP
+        #region Version
 
         /// <summary>
         /// Retries all the minecraft versions
