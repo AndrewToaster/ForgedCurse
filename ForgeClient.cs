@@ -18,7 +18,7 @@ namespace ForgedCurse
     /// </remarks>
     public class ForgeClient : IDisposable
     {
-        private const string API_URL = "https://addons-ecs.forgesvc.net/api/v2";
+        private const string API_URL = "https://addons-ecs.forgesvc.net/api/v2/";
         private const string API_MC_VERSIONS = "minecraft/version/";
         private const string API_MC_VERSION = "minecraft/version/{0}/";
         private const string API_FML_VERSIONS = "minecraft/modloader/";
@@ -196,7 +196,7 @@ namespace ForgedCurse
         /// <param name="addonId">The identification of the addon</param>
         /// <param name="fileId">The identification of the addon's file</param>
         /// <returns>The URL for the download</returns>
-        public async Task<string> GetAddonFileUrlAsync(string addonId, string fileId)
+        public async Task<string> GetAddonFileDownloadAsync(string addonId, string fileId)
         {
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_DOWNLOAD, addonId, fileId)));
             var resp = result.Value.EnsureSuccessStatusCode();
@@ -209,9 +209,9 @@ namespace ForgedCurse
         /// <param name="addonId">The identification of the addon</param>
         /// <param name="fileId">The identification of the addon's file</param>
         /// <returns>The URL for the download</returns>
-        public string GetAddonUrlFile(string addonId, string fileId)
+        public string GetAddonFileDownload(string addonId, string fileId)
         {
-            return AsyncContext.Run(() => GetAddonFileUrlAsync(addonId, fileId));
+            return AsyncContext.Run(() => GetAddonFileDownloadAsync(addonId, fileId));
         }
 
         /// <summary>
