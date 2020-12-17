@@ -283,7 +283,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="data">Data structure containing the information for querying addons</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public async Task<CurseJSON.AddonInfo[]> SearchAddonsAsync(AddonSearchData data)
+        public async Task<IEnumerable<CurseJSON.AddonInfo>> SearchAddonsAsync(AddonSearchData data)
         {
             string url = data.BuildSearchUrl();
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url));
@@ -296,7 +296,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="data">Data structure containing the information for querying addons</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public CurseJSON.AddonInfo[] SearchAddons(AddonSearchData data)
+        public IEnumerable<CurseJSON.AddonInfo> SearchAddons(AddonSearchData data)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(data));
         }
@@ -339,7 +339,7 @@ namespace ForgedCurse
         /// <param name="amount">The amount of mods to retrieve</param>
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public async Task<CurseJSON.AddonInfo[]> SearchAddonsAsync(string addonName, string gameVersion, int amount, AddonKind kind)
+        public async Task<IEnumerable<CurseJSON.AddonInfo>> SearchAddonsAsync(string addonName, string gameVersion, int amount, AddonKind kind)
         {
             return await SearchAddonsAsync(addonName: addonName, gameVersion: gameVersion, amount: amount, kind: kind);
         }
@@ -354,7 +354,7 @@ namespace ForgedCurse
         /// <param name="amount">The amount of mods to retrieve</param>
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public CurseJSON.AddonInfo[] SearchAddons(string addonName, string gameVersion, int amount, AddonKind kind)
+        public IEnumerable<CurseJSON.AddonInfo> SearchAddons(string addonName, string gameVersion, int amount, AddonKind kind)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(addonName, gameVersion, amount, kind));
         }
@@ -367,7 +367,7 @@ namespace ForgedCurse
         /// Retries all the minecraft versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.MinecraftVersionList.versions"/></returns>
-        public async Task<CurseJSON.MinecraftVersion[]> GetMinecraftVersionsAsync()
+        public async Task<IEnumerable<CurseJSON.MinecraftVersion>> GetMinecraftVersionsAsync()
         {
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(API_MC_VERSIONS));
             var resp = result.Value.EnsureSuccessStatusCode();
@@ -378,7 +378,7 @@ namespace ForgedCurse
         /// Retries all the minecraft versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.MinecraftVersionList.versions"/></returns>
-        public CurseJSON.MinecraftVersion[] GetMinecraftVersions()
+        public IEnumerable<CurseJSON.MinecraftVersion> GetMinecraftVersions()
         {
             return AsyncContext.Run(() => GetMinecraftVersionsAsync());
         }
@@ -409,7 +409,7 @@ namespace ForgedCurse
         /// Retries all the Forge Mod Loader versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.ForgeVersionList.versions"/></returns>
-        public async Task<CurseJSON.ForgeVersion[]> GetForgeVersionsAsync()
+        public async Task<IEnumerable<CurseJSON.ForgeVersion>> GetForgeVersionsAsync()
         {
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(API_FML_VERSIONS));
             var resp = result.Value.EnsureSuccessStatusCode();
@@ -420,7 +420,7 @@ namespace ForgedCurse
         /// Retries all the Forge Mod Loader versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.ForgeVersionList.versions"/></returns>
-        public CurseJSON.ForgeVersion[] GetForgeVersions()
+        public IEnumerable<CurseJSON.ForgeVersion> GetForgeVersions()
         {
             return AsyncContext.Run(() => GetForgeVersions());
         }
