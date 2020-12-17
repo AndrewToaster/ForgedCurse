@@ -231,7 +231,29 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="fingerprints">Array of the addons' package fingerprints</param>
         /// <returns>The information of the addons' package fingerprints</returns>
-        public CurseJSON.PackageFingerprint GetAddonsFingerprint(params uint[] fingerprints)
+        public CurseJSON.PackageFingerprint GetPackageFingerprint(params uint[] fingerprints)
+        {
+            return AsyncContext.Run(() => GetPackageFingerprintAsync(fingerprints));
+        }
+        /// <summary>
+        /// Retries addons' package information based on fingerprints
+        /// </summary>
+        /// <param name="fingerprints">Array of the addons' package fingerprints</param>
+        /// <returns>The information of the addons' package fingerprints</returns>
+
+        public async Task<CurseJSON.PackageFingerprint> GetPackageFingerprintAsync(params long[] fingerprints)
+        {
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDON_FINGERPRINT, JsonContent.FromObject(fingerprints)));
+            var resp = result.Value.EnsureSuccessStatusCode();
+
+            return await resp.ParseJsonAsync<CurseJSON.PackageFingerprint>();
+        }
+        /// <summary>
+        /// Retries addons' package information based on fingerprints
+        /// </summary>
+        /// <param name="fingerprints">Array of the addons' package fingerprints</param>
+        /// <returns>The information of the addons' package fingerprints</returns>
+        public CurseJSON.PackageFingerprint GetPackageFingerprint(params long[] fingerprints)
         {
             return AsyncContext.Run(() => GetPackageFingerprintAsync(fingerprints));
         }

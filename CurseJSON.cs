@@ -283,19 +283,19 @@ namespace ForgedCurse
         public class PackageFingerprint
         {
             public bool isCacheBuilt { get; set; }
-            public Exactmatch[] exactMatches { get; set; }
+            public ExactMatch[] exactMatches { get; set; }
             public long[] exactFingerprints { get; set; }
             public object[] partialMatches { get; set; }
-            public Partialmatchfingerprints partialMatchFingerprints { get; set; }
+            public PartialMatchFingerprints partialMatchFingerprints { get; set; }
             public long[] installedFingerprints { get; set; }
             public object[] unmatchedFingerprints { get; set; }
         }
 
-        public class Partialmatchfingerprints
+        public class PartialMatchFingerprints
         {
         }
 
-        public class Exactmatch
+        public class ExactMatch
         {
             public int id { get; set; }
             public AddonFile file { get; set; }
