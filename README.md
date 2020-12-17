@@ -22,9 +22,15 @@ Console.WriteLine(addon.authors[0]);
 I don't have the education to properly explain what finprinting is, but it is a way to provide a hash for a addon package. It is possible to use these hashes to retrieve information
 about the addons and such. For anyone wondering if you can compute a fingerprint? Yes, quite easily.
 ```csharp
-Span<byte> data = File.ReadBytes("C:/jei.jar");
+// Reads the contents of a mod file
+Span<byte> data = File.ReadAllBytes("C:/jei.jar");
+
+// Compute the fingerprint using the murmurhash2
 long fingerprint = Utilities.ComputeFingerprint(data);
 
+// Get fingerprint match data
 CurseJSON.PackageFingerprint fpData = client.GetPackageFingerprint(fingerprint);
+
+// Find the addon file containing the fingerprint
 CurseJSON.AddonFile file = fpData.exactMachtes[0].file;
 ```
