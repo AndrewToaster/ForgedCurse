@@ -3,7 +3,7 @@
 A C# wrapper around the CurseForge API
 
 # Usage
-The heart of this package is the `ForgeClient` class. It communicated with the CurseForge API and does it's stuff.
+The heart of this package is the `ForgeClient` class. It communicates with the CurseForge API and does it's stuff.
 
 ```csharp
 ForgeClient client = new ForgeClient();
