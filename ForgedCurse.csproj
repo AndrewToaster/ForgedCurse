@@ -8,7 +8,7 @@
     <Description>A C# wrapper around the CurseForge API</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/AndrewToaster/ForgedCurse</RepositoryUrl>
-    <PackageReleaseNotes>Fixed a critical problem with the communication with CurseForge API. Added some QoL. Fixed fingerprinting</PackageReleaseNotes>
+    <PackageReleaseNotes>Added the support for using int value for identifiers</PackageReleaseNotes>
     <Copyright>Copyright (c) 2020 AndrewToasterr</Copyright>
     <PackageProjectUrl>https://github.com/AndrewToaster/ForgedCurse</PackageProjectUrl>
     <PackageIcon>Icon.png</PackageIcon>
@@ -16,7 +16,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <Product>ForgedCurse</Product>
     <PackageId>ForgedCurse</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.2</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Company>Andrew Toasterr</Company>
     <PackageIconUrl>https://github.com/AndrewToaster/ForgedCurse/raw/main/Icon.png</PackageIconUrl>
