@@ -99,10 +99,10 @@ namespace ForgedCurse
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
         /// <returns>Constructed URL</returns>
-        public static string BuildSearchUrl(string version = null, string name = null, int offset = 0, int amount = 10, AddonCategory category = AddonCategory.All,
+        public static string BuildSearchUrl(string version = null, string name = null, int amount = 10, int offset = 0, AddonCategory category = AddonCategory.All,
             AddonSorting sort = AddonSorting.Featured, AddonKind kind = AddonKind.Mod)
         {
-            string url = $"https://addons-ecs.forgesvc.net/api/v2/addon/search?categoryId={category}&gameId=432&sort={sort}&index={offset}&pageSize={amount}&sectionId={kind}";
+            string url = $"https://addons-ecs.forgesvc.net/api/v2/addon/search?categoryId={(int)category}&gameId=432&sort={(int)sort}&index={offset}&pageSize={amount}&sectionId={(int)kind}";
 
             if (!string.IsNullOrWhiteSpace(version))
                 url += string.Format("&gameVersion={0}", version);

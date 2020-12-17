@@ -44,11 +44,16 @@ namespace ForgedCurse
         /// <returns>Computated normalized array</returns>
         public static Span<byte> GetNormalizedArray(Span<byte> bytes)
         {
+            bool IsWhitespace(byte b)
+            {
+                return b == 9 || b == 10 || b == 13 || b == 32;
+            }
+
             List<byte> normalized = new List<byte>();
 
             foreach (byte b in bytes)
             {
-                if (!char.IsWhiteSpace(Convert.ToChar(b)))
+                if (!IsWhitespace(b))
                 {
                     normalized.Add(b);
                 }
@@ -67,7 +72,17 @@ namespace ForgedCurse
             if (!File.Exists(jarFile) || Path.GetExtension(jarFile) != ".jar")
                 throw new ArgumentException("The specified path either doesn't exist or isn't pointing to a JAR file", nameof(jarFile));
 
-            return MurmurHash2.Hash(File.ReadAllBytes(jarFile), 1);
+            return MurmurHash2.HashNormalize(File.ReadAllBytes(jarFile));
+        }
+
+        /// <summary>
+        /// Computes a fingerprint of a JAR file
+        /// </summary>
+        /// <param name="jarStream">The contents of the JAR file</param>
+        /// <returns>Computated fingerprint</returns>
+        public static uint ComputeFingerprint(Span<byte> jarStream)
+        {
+            return MurmurHash2.HashNormalize(jarStream.ToArray());
         }
     }
 }
