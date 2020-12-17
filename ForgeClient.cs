@@ -81,7 +81,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonIds">The array containg the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public async Task<CurseJSON.AddonInfo[]> GetMultipleAddonInfoAsync(params string[] addonIds)
+        public async Task<IEnumerable<CurseJSON.AddonInfo>> GetMultipleAddonInfoAsync(params string[] addonIds)
         {
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDONS_INFO, JsonContent.FromObject(addonIds)));
             var resp = result.Value.EnsureSuccessStatusCode();
@@ -93,7 +93,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonIds">The array containg the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public CurseJSON.AddonInfo[] GetMultipleAddonInfo(params string[] addonIds)
+        public IEnumerable<CurseJSON.AddonInfo> GetMultipleAddonInfo(params string[] addonIds)
         {
             return AsyncContext.Run(() => GetMultipleAddonInfoAsync(addonIds));
         }
@@ -125,19 +125,19 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonId">The identification of the addon</param>
         /// <returns>Information about the addon's files</returns>
-        public async Task<CurseJSON.AddonFile[]> GetAddonFilesAsync(string addonId)
+        public async Task<IEnumerable<CurseJSON.AddonFile>> GetAddonFilesAsync(string addonId)
         {
             var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILES, addonId)));
             var resp = result.Value.EnsureSuccessStatusCode();
 
-            return await resp.ParseJsonAsync< CurseJSON.AddonFile[]>();
+            return await resp.ParseJsonAsync<CurseJSON.AddonFile[]>();
         }
         /// <summary>
         /// Retries the files of a specified addon
         /// </summary>
         /// <param name="addonId">The identification of the addon</param>
         /// <returns>Information about the addon's files</returns>
-        public CurseJSON.AddonFile[] GetAddonFiles(string addonId)
+        public IEnumerable<CurseJSON.AddonFile> GetAddonFiles(string addonId)
         {
             return AsyncContext.Run(() => GetAddonFilesAsync(addonId));
         }
@@ -250,7 +250,7 @@ namespace ForgedCurse
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public async Task<CurseJSON.AddonInfo[]> SearchAddonsAsync(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
+        public async Task<IEnumerable<CurseJSON.AddonInfo>> SearchAddonsAsync(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             string url = AddonSearchData.BuildSearchUrl(gameVersion, addonName, amount, offset, category, sorting, kind);
@@ -273,7 +273,7 @@ namespace ForgedCurse
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public CurseJSON.AddonInfo[] SearchAddons(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
+        public IEnumerable<CurseJSON.AddonInfo> SearchAddons(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(addonName, gameVersion, amount, offset, kind, category, sorting));

@@ -12,7 +12,7 @@ namespace ForgedCurse
     /// <summary>
     /// Quality of life class, making the querying of addons easier
     /// </summary>
-    public class AddonSearchIterator : IExpandingArray<CurseJSON.AddonInfo>, IDisposable
+    public class AddonSearchIterator : IDefferedArray<CurseJSON.AddonInfo>, IDisposable
     {
         private HttpClient _client;
 
@@ -55,8 +55,8 @@ namespace ForgedCurse
         /// Returns next range of addons in the query
         /// </summary>
         /// <param name="length">The amount of addons to query</param>
-        /// <returns>The queried range of <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public async Task<CurseJSON.AddonInfo[]> NextRangeAsync(int length)
+        /// <returns>The queried range of <see cref="CurseJSON.AddonInfo"/> array</returns>
+        public async Task<IEnumerable<CurseJSON.AddonInfo>> NextRangeAsync(int length)
         {
             SearchData.Amount = length;
 
@@ -82,8 +82,8 @@ namespace ForgedCurse
         /// Returns next range of addons in the query
         /// </summary>
         /// <param name="length">The amount of addons to query</param>
-        /// <returns>The queried range of <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public CurseJSON.AddonInfo[] NextRange(int length)
+        /// <returns>The queried range of <see cref="CurseJSON.AddonInfo"/> array</returns>
+        public IEnumerable<CurseJSON.AddonInfo> NextRange(int length)
         {
             return AsyncContext.Run(() => NextRangeAsync(length));
         }

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ForgedCurse.Utility
 {
-    public interface IExpandingArray<T>
+    public interface IDefferedArray<T>
     {
         T Next();
-        T[] NextRange(int length);
+        IEnumerable<T> NextRange(int length);
     }
 }
