@@ -8,7 +8,7 @@
     <Description>A C# wrapper around the CurseForge API</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/AndrewToaster/ForgedCurse</RepositoryUrl>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed a critical problem with the communication with CurseForge API. Added some QoL. Fixed fingerprinting</PackageReleaseNotes>
     <Copyright>Copyright (c) 2020 AndrewToasterr</Copyright>
     <PackageProjectUrl>https://github.com/AndrewToaster/ForgedCurse</PackageProjectUrl>
     <PackageIcon>Icon.png</PackageIcon>
