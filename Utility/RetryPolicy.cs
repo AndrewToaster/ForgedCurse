@@ -63,6 +63,7 @@ namespace ForgedCurse.Utility
                 catch (Exception e)
                 {
                     lastErr = e;
+                    Task.Delay(DelayAmount).Wait();
                 }
             }
 
@@ -89,6 +90,7 @@ namespace ForgedCurse.Utility
                 catch (Exception e)
                 {
                     lastErr = e;
+                    await Task.Delay(DelayAmount);
                 }
             }
 
@@ -116,6 +118,7 @@ namespace ForgedCurse.Utility
                 catch (Exception e)
                 {
                     lastErr = e;
+                    Task.Delay(DelayAmount).Wait();
                 }
             }
 
@@ -143,6 +146,7 @@ namespace ForgedCurse.Utility
                 catch (Exception e)
                 {
                     lastErr = e;
+                    await Task.Delay(DelayAmount);
                 }
             }
 
