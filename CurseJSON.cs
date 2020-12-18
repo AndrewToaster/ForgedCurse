@@ -285,10 +285,10 @@ namespace ForgedCurse
             public bool isCacheBuilt { get; set; }
             public ExactMatch[] exactMatches { get; set; }
             public long[] exactFingerprints { get; set; }
-            public object[] partialMatches { get; set; }
+            public long[] partialMatches { get; set; }
             public PartialMatchFingerprints partialMatchFingerprints { get; set; }
             public long[] installedFingerprints { get; set; }
-            public object[] unmatchedFingerprints { get; set; }
+            public long[] unmatchedFingerprints { get; set; }
         }
 
         public class PartialMatchFingerprints
