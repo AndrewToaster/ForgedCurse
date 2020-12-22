@@ -26,11 +26,12 @@ about the addons and such. For anyone wondering if you can compute a fingerprint
 Span<byte> data = File.ReadAllBytes("C:/jei.jar");
 
 // Compute the fingerprint using the murmurhash2
-long fingerprint = Utilities.ComputeFingerprint(data);
+long fingerprint = Fingerprinting.ComputeFingerprint(data);
 
-// Get fingerprint match data
-CurseJSON.PackageFingerprint fpData = client.GetPackageFingerprint(fingerprint);
-
-// Find the addon file containing the fingerprint
-CurseJSON.AddonFile file = fpData.exactMachtes[0].file;
+// Retrieve addon based on the provided fingerprint
+Addon addon = client.GetAddonFileFromFingerprint(fingerprint);
+```
+Or using the path to the JAR file
+```cs
+Addon addon = client.GetAddonFileFromFile("C:/jei.jar");
 ```
