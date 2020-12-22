@@ -19,7 +19,7 @@ Console.WriteLine(addon.Authors.First().Name);
 ```
 
 # Fingerprinting
-I don't have the education to properly explain what finprinting is, but it is a way to provide a hash for a addon package. It is possible to use these hashes to retrieve information
+I don't have the education to properly explain what fingerprinting is, but it is a way to provide a hash for a addon package. It is possible to use these hashes to retrieve information
 about the addons and such. For anyone wondering if you can compute a fingerprint? Yes, quite easily.
 ```csharp
 // Reads the contents of a mod file
