@@ -33,5 +33,6 @@ Addon addon = client.GetAddonFileFromFingerprint(fingerprint);
 ```
 Or using the path to the JAR file
 ```cs
+// Automatically computes a fingerprint and gets an Addon from the client
 Addon addon = client.GetAddonFileFromFile("C:/jei.jar");
 ```
