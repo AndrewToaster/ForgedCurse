@@ -12,10 +12,10 @@ It is as easy as that, now you have access to the API.
 
 ```csharp
 // Retrieves information about the mod with id 238222 (Just Enough Items)
-CurseJSON.AddonInfo addon = client.GetAddon(238222);
+Addon addon = client.GetAddon(238222);
 
 // Prints the first author of the mod
-Console.WriteLine(addon.authors[0]);
+Console.WriteLine(addon.Authors.First().Name);
 ```
 
 # Fingerprinting
