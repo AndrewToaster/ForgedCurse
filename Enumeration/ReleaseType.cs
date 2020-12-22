@@ -5,9 +5,9 @@ using System.Text;
 namespace ForgedCurse.Enumeration
 {
     /// <summary>
-    /// Indicates the release type of an addon
+    /// Indicates the release type of an something
     /// </summary>
-    public enum AddonReleaseType
+    public enum ReleaseType
     {
         Release = 1,
         Beta = 2,

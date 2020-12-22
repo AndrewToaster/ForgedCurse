@@ -112,7 +112,7 @@ namespace ForgedCurse
             public string summary { get; set; }
             public int defaultFileId { get; set; }
             public float downloadCount { get; set; }
-            public LatestAddonFile[] latestFiles { get; set; }
+            public AddonFile[] latestFiles { get; set; }
             public Category[] categories { get; set; }
             public int status { get; set; }
             public int primaryCategoryId { get; set; }
@@ -169,7 +169,7 @@ namespace ForgedCurse
             public int status { get; set; }
         }
 
-        public class LatestAddonFile
+        public class AddonFile
         {
             public int id { get; set; }
             public string displayName { get; set; }
@@ -188,7 +188,7 @@ namespace ForgedCurse
             public string[] gameVersion { get; set; }
             public SortableGameVersion[] sortableGameVersion { get; set; }
             public object installMetadata { get; set; }
-            public object changelog { get; set; }
+            public string changelog { get; set; }
             public bool hasInstallScript { get; set; }
             public bool isCompatibleWithClient { get; set; }
             public int categorySectionPackageType { get; set; }
@@ -208,30 +208,6 @@ namespace ForgedCurse
             public int gameId { get; set; }
             public bool isServerPack { get; set; }
             public object serverPackFileId { get; set; }
-            public object gameVersionFlavor { get; set; }
-        }
-
-        public class AddonFile
-        {
-            public int id { get; set; }
-            public string displayName { get; set; }
-            public string fileName { get; set; }
-            public DateTime fileDate { get; set; }
-            public int fileLength { get; set; }
-            public int releaseType { get; set; }
-            public int fileStatus { get; set; }
-            public string downloadUrl { get; set; }
-            public bool isAlternate { get; set; }
-            public int alternateFileId { get; set; }
-            public object[] dependencies { get; set; }
-            public bool isAvailable { get; set; }
-            public Module[] modules { get; set; }
-            public long packageFingerprint { get; set; }
-            public string[] gameVersion { get; set; }
-            public object installMetadata { get; set; }
-            public object serverPackFileId { get; set; }
-            public bool hasInstallScript { get; set; }
-            public DateTime gameVersionDateReleased { get; set; }
             public object gameVersionFlavor { get; set; }
         }
 
@@ -299,7 +275,7 @@ namespace ForgedCurse
         {
             public int id { get; set; }
             public AddonFile file { get; set; }
-            public LatestAddonFile[] latestFiles { get; set; }
+            public AddonFile[] latestFiles { get; set; }
         }
 
         #endregion

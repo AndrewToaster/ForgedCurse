@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ForgedCurse.Enumeration;
 using ForgedCurse.Utility;
+using ForgedCurse.WrapperTypes;
 
 namespace ForgedCurse
 {
@@ -38,51 +40,31 @@ namespace ForgedCurse
         }
 
         /// <summary>
-        /// Computes a normalized array, removing all whitespace characters
+        /// Code sugar for reducing the length of checking a async <see cref="HttpResponseMessage"/>'s status code
         /// </summary>
-        /// <param name="bytes">The byte array to normalize</param>
-        /// <returns>Computated normalized array</returns>
-        public static Span<byte> GetNormalizedArray(Span<byte> bytes)
+        /// <param name="responseMessage">The message to check</param>
+        /// <returns>Same message as <paramref name="responseMessage"/></returns>
+        public static async Task<HttpResponseMessage> CheckSuccess(this Task<HttpResponseMessage> responseMessage)
         {
-            bool IsWhitespace(byte b)
-            {
-                return b == 9 || b == 10 || b == 13 || b == 32;
-            }
-
-            List<byte> normalized = new List<byte>();
-
-            foreach (byte b in bytes)
-            {
-                if (!IsWhitespace(b))
-                {
-                    normalized.Add(b);
-                }
-            }
-
-            return normalized.ToArray();
+            return await responseMessage.ContinueWith(task => task.Result.EnsureSuccessStatusCode());
         }
 
         /// <summary>
-        /// Computes a fingerprint of a JAR file
+        /// Converts all entries in source array to their <see cref="object.ToString"/> representation
         /// </summary>
-        /// <param name="jarFile">The path pointing towards a JAR file</param>
-        /// <returns>Computated fingerprint</returns>
-        public static uint ComputeFingerprint(string jarFile)
+        /// <typeparam name="T">The type of the array</typeparam>
+        /// <param name="array">The array to convert</param>
+        /// <returns><see cref="string"/>[] array</returns>
+        public static string[] ArrayToString<T>(this T[] array)
         {
-            if (!File.Exists(jarFile) || Path.GetExtension(jarFile) != ".jar")
-                throw new ArgumentException("The specified path either doesn't exist or isn't pointing to a JAR file", nameof(jarFile));
+            string[] outArr = new string[array.Length];
 
-            return MurmurHash2.HashNormalize(File.ReadAllBytes(jarFile));
-        }
+            for (int i = 0; i < array.Length; i++)
+            {
+                outArr[i] = array[i].ToString();
+            }
 
-        /// <summary>
-        /// Computes a fingerprint of a JAR file
-        /// </summary>
-        /// <param name="jarStream">The contents of the JAR file</param>
-        /// <returns>Computated fingerprint</returns>
-        public static uint ComputeFingerprint(Span<byte> jarStream)
-        {
-            return MurmurHash2.HashNormalize(jarStream.ToArray());
+            return outArr;
         }
     }
 }

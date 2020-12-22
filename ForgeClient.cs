@@ -1,5 +1,6 @@
 ﻿using ForgedCurse.Enumeration;
 using ForgedCurse.Utility;
+using ForgedCurse.WrapperTypes;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
 using System;
@@ -59,19 +60,19 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonId">The identifier of the addon</param>
         /// <returns>Information about the addon</returns>
-        public async Task<CurseJSON.AddonInfo> GetAddonAsync(string addonId)
+        public async Task<Addon> GetAddonAsync(string addonId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_INFO, addonId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_INFO, addonId)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.AddonInfo>();
+            return new Addon(await resp.ParseJsonAsync<CurseJSON.AddonInfo>(), this);
         }
         /// <summary>
         /// Retries the information about a addon specified using an id
         /// </summary>
         /// <param name="addonId">The identifier of the addon</param>
         /// <returns>Information about the addon</returns>
-        public CurseJSON.AddonInfo GetAddon(string addonId)
+        public Addon GetAddon(string addonId)
         {
             return AsyncContext.Run(() => GetAddonAsync(addonId));
         }
@@ -81,19 +82,16 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonId">The identifier of the addon</param>
         /// <returns>Information about the addon</returns>
-        public async Task<CurseJSON.AddonInfo> GetAddonAsync(int addonId)
+        public async Task<Addon> GetAddonAsync(int addonId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_INFO, addonId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.ParseJsonAsync<CurseJSON.AddonInfo>();
+            return await GetAddonAsync(addonId.ToString());
         }
         /// <summary>
         /// Retries the information about a addon specified using an id
         /// </summary>
         /// <param name="addonId">The identifier of the addon</param>
         /// <returns>Information about the addon</returns>
-        public CurseJSON.AddonInfo GetAddon(int addonId)
+        public Addon GetAddon(int addonId)
         {
             return AsyncContext.Run(() => GetAddonAsync(addonId));
         }
@@ -103,19 +101,19 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonIds">The array containg the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public async Task<IEnumerable<CurseJSON.AddonInfo>> GetMultipleAddonsAsync(params string[] addonIds)
+        public async Task<IEnumerable<Addon>> GetMultipleAddonsAsync(params string[] addonIds)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDONS_INFO, JsonContent.FromObject(addonIds)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDONS_INFO, JsonContent.FromObject(addonIds)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>();
+            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>().ContinueWith(task => task.Result.Select(x => new Addon(x, this)));
         }
         /// <summary>
         /// Retries the information about addons specified using an array of ids
         /// </summary>
         /// <param name="addonIds">The array containg the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public IEnumerable<CurseJSON.AddonInfo> GetMultipleAddons(params string[] addonIds)
+        public IEnumerable<Addon> GetMultipleAddons(params string[] addonIds)
         {
             return AsyncContext.Run(() => GetMultipleAddonsAsync(addonIds));
         }
@@ -125,19 +123,16 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonIds">The array containg the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public async Task<IEnumerable<CurseJSON.AddonInfo>> GetMultipleAddonsAsync(params int[] addonIds)
+        public async Task<IEnumerable<Addon>> GetMultipleAddonsAsync(params int[] addonIds)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDONS_INFO, JsonContent.FromObject(addonIds)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>();
+            return await GetMultipleAddonsAsync(addonIds.ArrayToString());
         }
         /// <summary>
         /// Retries the information about addons specified using an array of ids
         /// </summary>
         /// <param name="addonIds">The array containg the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public IEnumerable<CurseJSON.AddonInfo> GetMultipleAddons(params int[] addonIds)
+        public IEnumerable<Addon> GetMultipleAddons(params int[] addonIds)
         {
             return AsyncContext.Run(() => GetMultipleAddonsAsync(addonIds));
         }
@@ -149,8 +144,8 @@ namespace ForgedCurse
         /// <returns>HTML description of the addon</returns>
         public async Task<string> GetAddonDescriptionAsync(string addonId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_DESC, addonId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_DESC, addonId)).CheckSuccess());
+            var resp = result.Value;
 
             return await resp.Content.ReadAsStringAsync();
         }
@@ -171,10 +166,7 @@ namespace ForgedCurse
         /// <returns>HTML description of the addon</returns>
         public async Task<string> GetAddonDescriptionAsync(int addonId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_DESC, addonId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.Content.ReadAsStringAsync();
+            return await GetAddonDescriptionAsync(addonId.ToString());
         }
         /// <summary>
         /// Retries the HTML description of the specified addon
@@ -191,19 +183,19 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonId">The identification of the addon</param>
         /// <returns>Information about the addon's files</returns>
-        public async Task<IEnumerable<CurseJSON.AddonFile>> GetAddonFilesAsync(string addonId)
+        public async Task<IEnumerable<AddonFile>> GetAddonFilesAsync(string addonId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILES, addonId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILES, addonId)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.AddonFile[]>();
+            return await resp.ParseJsonAsync<CurseJSON.AddonFile[]>().ContinueWith(task => task.Result.Select(x => new AddonFile(x, this)));
         }
         /// <summary>
         /// Retries the files of a specified addon
         /// </summary>
         /// <param name="addonId">The identification of the addon</param>
         /// <returns>Information about the addon's files</returns>
-        public IEnumerable<CurseJSON.AddonFile> GetAddonFiles(string addonId)
+        public IEnumerable<AddonFile> GetAddonFiles(string addonId)
         {
             return AsyncContext.Run(() => GetAddonFilesAsync(addonId));
         }
@@ -213,19 +205,16 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="addonId">The identification of the addon</param>
         /// <returns>Information about the addon's files</returns>
-        public async Task<IEnumerable<CurseJSON.AddonFile>> GetAddonFilesAsync(int addonId)
+        public async Task<IEnumerable<AddonFile>> GetAddonFilesAsync(int addonId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILES, addonId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.ParseJsonAsync<CurseJSON.AddonFile[]>();
+            return await GetAddonFilesAsync(addonId.ToString());
         }
         /// <summary>
         /// Retries the files of a specified addon
         /// </summary>
         /// <param name="addonId">The identification of the addon</param>
         /// <returns>Information about the addon's files</returns>
-        public IEnumerable<CurseJSON.AddonFile> GetAddonFiles(int addonId)
+        public IEnumerable<AddonFile> GetAddonFiles(int addonId)
         {
             return AsyncContext.Run(() => GetAddonFilesAsync(addonId));
         }
@@ -238,8 +227,8 @@ namespace ForgedCurse
         /// <returns>HTML changelog of the addon's file</returns>
         public async Task<string> GetAddonFileChangeLogAsync(string addonId, string fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_CHANGE, addonId, fileId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_CHANGE, addonId, fileId)).CheckSuccess());
+            var resp = result.Value;
 
             return await resp.Content.ReadAsStringAsync();
         }
@@ -262,10 +251,7 @@ namespace ForgedCurse
         /// <returns>HTML changelog of the addon's file</returns>
         public async Task<string> GetAddonFileChangeLogAsync(int addonId, int fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_CHANGE, addonId, fileId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.Content.ReadAsStringAsync();
+            return await GetAddonFileChangeLogAsync(addonId.ToString(), fileId.ToString());
         }
         /// <summary>
         /// Retries the HTML changelog of the specified addon's file
@@ -284,12 +270,12 @@ namespace ForgedCurse
         /// <param name="addonId">The identification of the addon</param>
         /// <param name="fileId">The identification of the addon's file</param>
         /// <returns>The information of the addon's file</returns>
-        public async Task<CurseJSON.AddonFile> GetAddonFileAsync(string addonId, string fileId)
+        public async Task<AddonFile> GetAddonFileAsync(string addonId, string fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE, addonId, fileId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE, addonId, fileId)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.AddonFile>();
+            return new AddonFile(await resp.ParseJsonAsync<CurseJSON.AddonFile>(), this);
         }
         /// <summary>
         /// Retries the addon's file information
@@ -297,7 +283,7 @@ namespace ForgedCurse
         /// <param name="addonId">The identification of the addon</param>
         /// <param name="fileId">The identification of the addon's file</param>
         /// <returns>The information of the addon's file</returns>
-        public CurseJSON.AddonFile GetAddonFile(string addonId, string fileId)
+        public AddonFile GetAddonFile(string addonId, string fileId)
         {
             return AsyncContext.Run(() => GetAddonFileAsync(addonId, fileId));
         }
@@ -308,12 +294,9 @@ namespace ForgedCurse
         /// <param name="addonId">The identification of the addon</param>
         /// <param name="fileId">The identification of the addon's file</param>
         /// <returns>The information of the addon's file</returns>
-        public async Task<CurseJSON.AddonFile> GetAddonFileAsync(int addonId, int fileId)
+        public async Task<AddonFile> GetAddonFileAsync(int addonId, int fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE, addonId, fileId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.ParseJsonAsync<CurseJSON.AddonFile>();
+            return await GetAddonFileAsync(addonId.ToString(), fileId.ToString());
         }
         /// <summary>
         /// Retries the addon's file information
@@ -321,7 +304,7 @@ namespace ForgedCurse
         /// <param name="addonId">The identification of the addon</param>
         /// <param name="fileId">The identification of the addon's file</param>
         /// <returns>The information of the addon's file</returns>
-        public CurseJSON.AddonFile GetAddonFile(int addonId, int fileId)
+        public AddonFile GetAddonFile(int addonId, int fileId)
         {
             return AsyncContext.Run(() => GetAddonFileAsync(addonId, fileId));
         }
@@ -334,8 +317,8 @@ namespace ForgedCurse
         /// <returns>The URL for the download</returns>
         public async Task<string> GetAddonFileDownloadAsync(string addonId, string fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_DOWNLOAD, addonId, fileId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_DOWNLOAD, addonId, fileId)).CheckSuccess());
+            var resp = result.Value;
 
             return await resp.Content.ReadAsStringAsync();
         }
@@ -358,10 +341,7 @@ namespace ForgedCurse
         /// <returns>The URL for the download</returns>
         public async Task<string> GetAddonFileDownloadAsync(int addonId, int fileId)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_ADDON_FILE_DOWNLOAD, addonId, fileId)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.Content.ReadAsStringAsync();
+            return await GetAddonFileDownloadAsync(addonId.ToString(), fileId.ToString());
         }
         /// <summary>
         /// Retries the addon's file download url
@@ -379,19 +359,16 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="fingerprints">Array of the addons' package fingerprints</param>
         /// <returns>The information of the addons' package fingerprints</returns>
-        public async Task<CurseJSON.PackageFingerprint> GetPackageFingerprintAsync(params uint[] fingerprints)
+        public async Task<PackageFingerprint> GetPackageFingerprintAsync(params uint[] fingerprints)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDON_FINGERPRINT, JsonContent.FromObject(fingerprints)));
-            var resp = result.Value.EnsureSuccessStatusCode();
-
-            return await resp.ParseJsonAsync<CurseJSON.PackageFingerprint>();
+            return await GetPackageFingerprintAsync(fingerprints.Cast<long>().ToArray());
         }
         /// <summary>
         /// Retries addons' package information based on fingerprints
         /// </summary>
         /// <param name="fingerprints">Array of the addons' package fingerprints</param>
         /// <returns>The information of the addons' package fingerprints</returns>
-        public CurseJSON.PackageFingerprint GetPackageFingerprint(params uint[] fingerprints)
+        public PackageFingerprint GetPackageFingerprint(params uint[] fingerprints)
         {
             return AsyncContext.Run(() => GetPackageFingerprintAsync(fingerprints));
         }
@@ -401,21 +378,76 @@ namespace ForgedCurse
         /// <param name="fingerprints">Array of the addons' package fingerprints</param>
         /// <returns>The information of the addons' package fingerprints</returns>
 
-        public async Task<CurseJSON.PackageFingerprint> GetPackageFingerprintAsync(params long[] fingerprints)
+        public async Task<PackageFingerprint> GetPackageFingerprintAsync(params long[] fingerprints)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDON_FINGERPRINT, JsonContent.FromObject(fingerprints)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.PostAsync(API_ADDON_FINGERPRINT, JsonContent.FromObject(fingerprints)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.PackageFingerprint>();
+            return new PackageFingerprint(await resp.ParseJsonAsync<CurseJSON.PackageFingerprint>(), this);
         }
         /// <summary>
         /// Retries addons' package information based on fingerprints
         /// </summary>
         /// <param name="fingerprints">Array of the addons' package fingerprints</param>
         /// <returns>The information of the addons' package fingerprints</returns>
-        public CurseJSON.PackageFingerprint GetPackageFingerprint(params long[] fingerprints)
+        public PackageFingerprint GetPackageFingerprint(params long[] fingerprints)
         {
             return AsyncContext.Run(() => GetPackageFingerprintAsync(fingerprints));
+        }
+
+        /// <summary>
+        /// Get a <see cref="AddonFile"/> from a computated fingerprint
+        /// </summary>
+        /// <param name="fingerprint">The fingerprint to use</param>
+        /// <returns>The <see cref="AddonFile"/> retrieved</returns>
+        public async Task<AddonFile> GetAddonFileFromFingerprintAsync(long fingerprint)
+        {
+            var fpData = await GetPackageFingerprintAsync(fingerprint);
+
+            if (fpData.Matches.Count() == 0 || fpData.UnmatchedFingerprints.Contains(fingerprint))
+            {
+                return null;
+            }
+
+            var fpMatch = fpData.Matches.First();
+            var file = await GetAddonFileAsync(fpMatch.ProjectIdentifier, fpMatch.FileIdentifier);
+
+            return new AddonFile(file, this);
+        }
+        /// <summary>
+        /// Get a <see cref="AddonFile"/> from a computated fingerprint
+        /// </summary>
+        /// <param name="fingerprint">The fingerprint to use</param>
+        /// <returns>The <see cref="AddonFile"/> retrieved</returns>
+        public AddonFile GetAddonFileFromFingerprint(long fingerprint)
+        {
+            return AsyncContext.Run(() => GetAddonFileFromFingerprintAsync(fingerprint));
+        }
+
+        /// <summary>
+        /// Get a <see cref="AddonFile"/> from a computated fingerprint from <paramref name="jarFile"/>
+        /// </summary>
+        /// <remarks>
+        /// Internally calls the <see cref="Fingerprinting.ComputeFingerprint(string)"/> supplied with <paramref name="jarFile"/>, then retrieves the the file from the fingerprint
+        /// </remarks>
+        /// <param name="jarFile">The path to the JAR file of the addon</param>
+        /// <returns>The <see cref="AddonFile"/> retrieved</returns>
+        public async Task<AddonFile> GetAddonFileFromFileAsync(string jarFile)
+        {
+            long fp = Fingerprinting.ComputeFingerprint(jarFile);
+            return await GetAddonFileFromFingerprintAsync(fp);
+        }
+        /// <summary>
+        /// Get a <see cref="AddonFile"/> from a computated fingerprint from <paramref name="jarFile"/>
+        /// </summary>
+        /// <remarks>
+        /// Internally calls the <see cref="Fingerprinting.ComputeFingerprint(string)"/> supplied with <paramref name="jarFile"/>, then retrieves the the file from the fingerprint
+        /// </remarks>
+        /// <param name="jarFile">The path to the JAR file of the addon</param>
+        /// <returns>The <see cref="AddonFile"/> retrieved</returns>
+        public AddonFile GetAddonFileFromFile(string jarFile)
+        {
+            return AsyncContext.Run(() => GetAddonFileFromFile(jarFile));
         }
 
         /// <summary>
@@ -432,14 +464,14 @@ namespace ForgedCurse
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public async Task<IEnumerable<CurseJSON.AddonInfo>> SearchAddonsAsync(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
+        public async Task<IEnumerable<Addon>> SearchAddonsAsync(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             string url = AddonSearchData.BuildSearchUrl(gameVersion, addonName, amount, offset, category, sorting, kind);
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>();
+            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>().ContinueWith(task => task.Result.Select(x => new Addon(x, this)));
         }
         /// <summary>
         /// Queries addons using the specified options
@@ -455,7 +487,7 @@ namespace ForgedCurse
         /// <param name="category">The category filter of this query (Addons, Server Utility, ...)</param>
         /// <param name="sorting">The method of sorting the addons from which to query</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public IEnumerable<CurseJSON.AddonInfo> SearchAddons(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
+        public IEnumerable<Addon> SearchAddons(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(addonName, gameVersion, amount, offset, kind, category, sorting));
@@ -465,20 +497,20 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="data">Data structure containing the information for querying addons</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public async Task<IEnumerable<CurseJSON.AddonInfo>> SearchAddonsAsync(AddonSearchData data)
+        public async Task<IEnumerable<Addon>> SearchAddonsAsync(AddonSearchData data)
         {
             string url = data.BuildSearchUrl();
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(url).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>();
+            return await resp.ParseJsonAsync<CurseJSON.AddonInfo[]>().ContinueWith(task => task.Result.Select(x => new Addon(x, this)));
         }
         /// <summary>
         /// Queries addons using the specified options
         /// </summary>
         /// <param name="data">Data structure containing the information for querying addons</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/>[]</returns>
-        public IEnumerable<CurseJSON.AddonInfo> SearchAddons(AddonSearchData data)
+        public IEnumerable<Addon> SearchAddons(AddonSearchData data)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(data));
         }
@@ -497,7 +529,7 @@ namespace ForgedCurse
         public AddonSearchIterator CreateAddonIterator(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
             AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
-            return new AddonSearchIterator(addonName, gameVersion, amount, offset, kind, category, sorting);
+            return new AddonSearchIterator(this, addonName, gameVersion, amount, offset, kind, category, sorting);
         }
 
         /// <summary>
@@ -507,7 +539,7 @@ namespace ForgedCurse
         /// <returns>The constructed iterator</returns>
         public AddonSearchIterator CreateAddonIterator(AddonSearchData data)
         {
-            return new AddonSearchIterator(data);
+            return new AddonSearchIterator(this, data);
         }
 
         /// <summary>
@@ -521,7 +553,7 @@ namespace ForgedCurse
         /// <param name="amount">The amount of mods to retrieve</param>
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public async Task<IEnumerable<CurseJSON.AddonInfo>> SearchAddonsAsync(string addonName, string gameVersion, int amount, AddonKind kind)
+        public async Task<IEnumerable<Addon>> SearchAddonsAsync(string addonName, string gameVersion, int amount, AddonKind kind)
         {
             return await SearchAddonsAsync(addonName: addonName, gameVersion: gameVersion, amount: amount, kind: kind);
         }
@@ -536,7 +568,7 @@ namespace ForgedCurse
         /// <param name="amount">The amount of mods to retrieve</param>
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public IEnumerable<CurseJSON.AddonInfo> SearchAddons(string addonName, string gameVersion, int amount, AddonKind kind)
+        public IEnumerable<Addon> SearchAddons(string addonName, string gameVersion, int amount, AddonKind kind)
         {
             return AsyncContext.Run(() => SearchAddonsAsync(addonName, gameVersion, amount, kind));
         }
@@ -549,18 +581,18 @@ namespace ForgedCurse
         /// Retries all the minecraft versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.MinecraftVersionList.versions"/></returns>
-        public async Task<IEnumerable<CurseJSON.MinecraftVersion>> GetMinecraftVersionsAsync()
+        public async Task<IEnumerable<MinecraftVersion>> GetMinecraftVersionsAsync()
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(API_MC_VERSIONS));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(API_MC_VERSIONS).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.MinecraftVersionList>().ContinueWith(x => x.Result.versions);
+            return await resp.ParseJsonAsync<CurseJSON.MinecraftVersionList>().ContinueWith(task => task.Result.versions.Select(x => new MinecraftVersion(x, this)));
         }
         /// <summary>
         /// Retries all the minecraft versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.MinecraftVersionList.versions"/></returns>
-        public IEnumerable<CurseJSON.MinecraftVersion> GetMinecraftVersions()
+        public IEnumerable<MinecraftVersion> GetMinecraftVersions()
         {
             return AsyncContext.Run(() => GetMinecraftVersionsAsync());
         }
@@ -570,12 +602,12 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="version">The <see cref="string"/> representation of the minecraft version (e.g: '1.12.2')</param>
         /// <returns>The information about the specific version</returns>
-        public async Task<CurseJSON.MinecraftVersion> GetMinecraftVersionAsync(string version)
+        public async Task<MinecraftVersion> GetMinecraftVersionAsync(string version)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_MC_VERSION, version)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_MC_VERSION, version)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.MinecraftVersion>();
+            return new MinecraftVersion(await resp.ParseJsonAsync<CurseJSON.MinecraftVersion>(), this);
         }
         /// <summary>
         /// Retrieves information about a specific version of minecraft
@@ -591,18 +623,18 @@ namespace ForgedCurse
         /// Retries all the Forge Mod Loader versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.ForgeVersionList.versions"/></returns>
-        public async Task<IEnumerable<CurseJSON.ForgeVersion>> GetForgeVersionsAsync()
+        public async Task<IEnumerable<ForgeVersion>> GetForgeVersionsAsync()
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(API_FML_VERSIONS));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(API_FML_VERSIONS).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.ForgeVersionList>().ContinueWith(x => x.Result.versions);
+            return await resp.ParseJsonAsync<CurseJSON.ForgeVersionList>().ContinueWith(task => task.Result.versions.Select(x => new ForgeVersion(x, this)));
         }
         /// <summary>
         /// Retries all the Forge Mod Loader versions
         /// </summary>
         /// <returns>Retrieved <see cref="CurseJSON.ForgeVersionList.versions"/></returns>
-        public IEnumerable<CurseJSON.ForgeVersion> GetForgeVersions()
+        public IEnumerable<ForgeVersion> GetForgeVersions()
         {
             return AsyncContext.Run(() => GetForgeVersions());
         }
@@ -612,19 +644,19 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="version">The <see cref="string"/> representation of the FML version (e.g: 'forge-12.17.0.1980')</param>
         /// <returns>The information about the specific version</returns>
-        public async Task<CurseJSON.ForgeVersion> GetForgeVersionAsync(string version)
+        public async Task<ForgeVersion> GetForgeVersionAsync(string version)
         {
-            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_FML_VERSION, version)));
-            var resp = result.Value.EnsureSuccessStatusCode();
+            var result = await RetryPolicy.ExecutePolicyAsync(() => _client.GetAsync(string.Format(API_FML_VERSION, version)).CheckSuccess());
+            var resp = result.Value;
 
-            return await resp.ParseJsonAsync<CurseJSON.ForgeVersion>();
+            return new ForgeVersion(await resp.ParseJsonAsync<CurseJSON.ForgeVersion>(), this);
         }
         /// <summary>
         /// Retrieves information about a specific version of FML
         /// </summary>
         /// <param name="version">The <see cref="string"/> representation of the FML version (e.g: 'forge-12.17.0.1980')</param>
         /// <returns>The information about the specific version</returns>
-        public CurseJSON.MinecraftVersion GetForgeVersion(string version)
+        public MinecraftVersion GetForgeVersion(string version)
         {
             return AsyncContext.Run(() => GetMinecraftVersionAsync(version));
         }

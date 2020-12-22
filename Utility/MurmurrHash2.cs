@@ -12,21 +12,9 @@ namespace ForgedCurse.Utility
 	/// </remarks>
 	public static class MurmurHash2
 	{
-		public static uint Hash(string data)
-		{
-			byte[] dataByte = System.Text.Encoding.UTF8.GetBytes(data);
-			return Hash(dataByte);
-		}
-
-		public static uint Hash(byte[] data)
-		{
-			//return Hash(data, 0xc58f1a7a);
-			int length = data.Length;
-			return Hash(Normalize(data), 1, length);
-		}
-
 		const uint m = 0x5bd1e995;
 		const int r = 24;
+
 		public static uint Hash(byte[] data, uint seed, int length)
 		{
 
@@ -71,58 +59,21 @@ namespace ForgedCurse.Utility
 			return h;
 		}
 
-		public static byte[] SubArray(byte[] data, int index, int length)
+		public static uint HashNormal(byte[] array)
 		{
-			byte[] result = new byte[length];
-			Array.Copy(data, index, result, 0, length);
-			return result;
-		}
+			List<byte> normalArray = new List<byte>();
 
-		public static byte[] Normalize(byte[] array)
-		{
+            for (int i = 0; i < array.Length; i++)
+            {
+				byte b = array[i];
 
-			int bufferSize = array.Length;
+				if (!(b == 9 || b == 10 || b == 13 || b == 32))
+                {
+					normalArray.Add(b);
+                }
+            }
 
-			int counter = 0;
-			byte c;
-
-			for (int a = 0; a < bufferSize; a++)
-			{
-
-				c = array[a];
-
-				if (!(c == 9 || c == 10 || c == 13 || c == 32)) //No es espacio
-				{
-					array[counter] = array[a];
-					counter++;
-				}
-			}
-
-			return SubArray(array, 0, counter);
-
-		}
-
-		public static uint HashNormalize(byte[] array)
-		{
-
-			int bufferSize = array.Length;
-
-			int counter = 0;
-			byte c;
-
-			for (int a = 0; a < bufferSize; a++)
-			{
-
-				c = array[a];
-
-				if (!(c == 9 || c == 10 || c == 13 || c == 32)) //No es espacio
-				{
-					array[counter] = array[a];
-					counter++;
-				}
-			}
-
-			return Hash(array, 1, counter);
+			return Hash(normalArray.ToArray(), 1, normalArray.Count);
 		}
 	}
 
