@@ -396,6 +396,61 @@ namespace ForgedCurse
         }
 
         /// <summary>
+        /// Get a <see cref="Addon"/> from a computated fingerprint
+        /// </summary>
+        /// <param name="fingerprint">The fingerprint to use</param>
+        /// <returns>The <see cref="Addon"/> retrieved</returns>
+        public async Task<Addon> GetAddonFromFingerprintAsync(long fingerprint)
+        {
+            var fpData = await GetPackageFingerprintAsync(fingerprint);
+
+            if (fpData.Matches.Count() == 0 || fpData.UnmatchedFingerprints.Contains(fingerprint))
+            {
+                return null;
+            }
+
+            var fpMatch = fpData.Matches.First();
+            var addon = await GetAddonAsync(fpMatch.ProjectIdentifier);
+
+            return new Addon(addon, this);
+        }
+        /// <summary>
+        /// Get a <see cref="Addon"/> from a computated fingerprint
+        /// </summary>
+        /// <param name="fingerprint">The fingerprint to use</param>
+        /// <returns>The <see cref="Addon"/> retrieved</returns>
+        public Addon GetAddonFromFingerprint(long fingerprint)
+        {
+            return AsyncContext.Run(() => GetAddonFromFingerprintAsync(fingerprint));
+        }
+
+        /// <summary>
+        /// Get a <see cref="Addon"/> from a computated fingerprint from <paramref name="jarFile"/>
+        /// </summary>
+        /// <remarks>
+        /// Internally calls the <see cref="Fingerprinting.ComputeFingerprint(string)"/> supplied with <paramref name="jarFile"/>, then retrieves the the file from the fingerprint
+        /// </remarks>
+        /// <param name="jarFile">The path to the JAR file of the addon</param>
+        /// <returns>The <see cref="Addon"/> retrieved</returns>
+        public async Task<Addon> GetAddonFromFileAsync(string jarFile)
+        {
+            long fp = Fingerprinting.ComputeFingerprint(jarFile);
+            return await GetAddonFromFingerprintAsync(fp);
+        }
+        /// <summary>
+        /// Get a <see cref="Addon"/> from a computated fingerprint from <paramref name="jarFile"/>
+        /// </summary>
+        /// <remarks>
+        /// Internally calls the <see cref="Fingerprinting.ComputeFingerprint(string)"/> supplied with <paramref name="jarFile"/>, then retrieves the the file from the fingerprint
+        /// </remarks>
+        /// <param name="jarFile">The path to the JAR file of the addon</param>
+        /// <returns>The <see cref="Addon"/> retrieved</returns>
+        public Addon GetAddonFromFile(string jarFile)
+        {
+            return AsyncContext.Run(() => GetAddonFromFileAsync(jarFile));
+        }
+
+        /// <summary>
         /// Get a <see cref="AddonFile"/> from a computated fingerprint
         /// </summary>
         /// <param name="fingerprint">The fingerprint to use</param>
