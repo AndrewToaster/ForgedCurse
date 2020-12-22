@@ -18,10 +18,10 @@ namespace ForgedCurse.WrapperTypes
         /// <param name="client"></param>
         public Addon(CurseJSON.AddonInfo addonInfo, ForgeClient client) : base(addonInfo, client)
         {
-            Authors = WrappedType.authors?.Select(auth => new AddonAuthor(auth, Client));
-            Attachments = WrappedType.attachments?.Select(attach => new AddonAttachment(attach, Client));
-            LatestFiles = WrappedType.latestFiles?.Select(file => new AddonFile(file, Client));
-            Files = WrappedType.gameVersionLatestFiles?.Select(file => new AddonFileLite(file, Client));
+            Authors = WrappedType.authors.SelectReadOnly(auth => new AddonAuthor(auth, Client));
+            Attachments = WrappedType.attachments.SelectReadOnly(attach => new AddonAttachment(attach, Client));
+            LatestFiles = WrappedType.latestFiles.SelectReadOnly(file => new AddonFile(file, Client));
+            Files = WrappedType.gameVersionLatestFiles.SelectReadOnly(file => new AddonFileLite(file, Client));
             Statistics = new AddonStatistics(addonInfo);
         }
 
@@ -43,12 +43,12 @@ namespace ForgedCurse.WrapperTypes
         /// <summary>
         /// The authors that are associated with this addon
         /// </summary>
-        public IEnumerable<AddonAuthor> Authors { get; }
+        public IReadOnlyCollection<AddonAuthor> Authors { get; }
 
         /// <summary>
         /// The attachments that come with this addon (e.g. Images)
         /// </summary>
-        public IEnumerable<AddonAttachment> Attachments { get; }
+        public IReadOnlyCollection<AddonAttachment> Attachments { get; }
 
         /// <summary>
         /// Returns the 3 latest addon releases
@@ -57,7 +57,7 @@ namespace ForgedCurse.WrapperTypes
         /// <see cref="LatestFiles"/> has considerably more information about each element than <see cref="Files"/>.
         /// This is the reason for only having 3 entries (due to the size limitation)
         /// </remarks>
-        public IEnumerable<AddonFile> LatestFiles { get; }
+        public IReadOnlyCollection<AddonFile> LatestFiles { get; }
 
         /// <summary>
         /// Returns the all the addon releases
@@ -66,7 +66,7 @@ namespace ForgedCurse.WrapperTypes
         /// <see cref="Files"/> has considerably less information about each element than <see cref="LatestFiles"/>
         /// This is the reason for having all entries (due to the size limitation)
         /// </remarks>
-        public IEnumerable<AddonFileLite> Files { get; }
+        public IReadOnlyCollection<AddonFileLite> Files { get; }
 
         /// <summary>
         /// The date this addon was created (first ever release date)

@@ -66,5 +66,25 @@ namespace ForgedCurse
 
             return outArr;
         }
+
+        /// <summary>
+        /// Creates a <see cref="IReadOnlyCollection{TOut}"/> from an <typeparamref name="TIn"/>[] array using <paramref name="selector"/> to select each entry
+        /// </summary>
+        /// <typeparam name="TOut">The output type</typeparam>
+        /// <typeparam name="TIn">The input type</typeparam>
+        /// <param name="array">The array to select from</param>
+        /// <param name="selector">The <see cref="Func{TIn, TOut}"/> to select each entry</param>
+        /// <returns><see cref="IReadOnlyCollection{TOut}"/></returns>
+        public static IReadOnlyCollection<TOut> SelectReadOnly<TOut, TIn>(this TIn[] array, Func<TIn, TOut> selector)
+        {
+            TOut[] outArray = new TOut[array.Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                outArray[i] = selector(array[i]);
+            }
+
+            return Array.AsReadOnly(outArray);
+        }
     }
 }

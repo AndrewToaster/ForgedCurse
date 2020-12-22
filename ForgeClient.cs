@@ -614,7 +614,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="version">The <see cref="string"/> representation of the minecraft version (e.g: '1.12.2')</param>
         /// <returns>The information about the specific version</returns>
-        public CurseJSON.MinecraftVersion GetMinecraftVersion(string version)
+        public MinecraftVersion GetMinecraftVersion(string version)
         {
             return AsyncContext.Run(() => GetMinecraftVersionAsync(version));
         }

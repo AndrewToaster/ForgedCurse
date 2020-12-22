@@ -12,28 +12,28 @@ namespace ForgedCurse.WrapperTypes
     {
         public PackageFingerprint(CurseJSON.PackageFingerprint fingerprint, ForgeClient client) : base(fingerprint, client)
         {
-            Matches = WrappedType.exactMatches?.Select(x => new FingerprintMatch(x, client));
+            Matches = WrappedType.exactMatches.SelectReadOnly(x => new FingerprintMatch(x, client));
         }
 
         /// <summary>
         /// All the fingerprints that were used in this <see cref="PackageFingerprint"/>
         /// </summary>
-        public IEnumerable<long> Fingerprints { get => WrappedType.installedFingerprints; }
+        public IReadOnlyCollection<long> Fingerprints { get => WrappedType.installedFingerprints; }
 
         /// <summary>
         /// All the fingerprints that didn't match
         /// </summary>
-        public IEnumerable<long> UnmatchedFingerprints { get => WrappedType.unmatchedFingerprints; }
+        public IReadOnlyCollection<long> UnmatchedFingerprints { get => WrappedType.unmatchedFingerprints; }
 
         /// <summary>
         /// All the fingerprints that were matched
         /// </summary>
-        public IEnumerable<long> MatchedFingerprints { get => WrappedType.exactFingerprints; }
+        public IReadOnlyCollection<long> MatchedFingerprints { get => WrappedType.exactFingerprints; }
 
         /// <summary>
         /// All the <see cref="FingerprintMatch"/>es that were found
         /// </summary>
-        public IEnumerable<FingerprintMatch> Matches { get; }
+        public IReadOnlyCollection<FingerprintMatch> Matches { get; }
     }
 
     /// <summary>

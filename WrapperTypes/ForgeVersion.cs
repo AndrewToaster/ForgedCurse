@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ForgedCurse.WrapperTypes
 {
@@ -21,7 +22,7 @@ namespace ForgedCurse.WrapperTypes
         /// <summary>
         /// The version of Minecraft associated with this FML version
         /// </summary>
-        public string GameVersion { get => WrappedType.gameVersion; }
+        public string MinecraftVersion { get => WrappedType.gameVersion; }
 
         /// <summary>
         /// The time where this FML version was last modified / updated
@@ -37,8 +38,26 @@ namespace ForgedCurse.WrapperTypes
         public bool Recommended { get => WrappedType.recommended; }
 
         /// <summary>
-        /// Whether or not this FML version is the newest version released for this <see cref="GameVersion"/>
+        /// Whether or not this FML version is the newest version released for this <see cref="MinecraftVersion"/>
         /// </summary>
         public bool Latest { get => WrappedType.latest; }
+
+        /// <summary>
+        /// Returns the <see cref="WrapperTypes.MinecraftVersion"/> that this <see cref="ForgeVersion"/> depends on
+        /// </summary>
+        /// <returns><see cref="WrapperTypes.MinecraftVersion"/> where its <see cref="MinecraftVersion.Version"/> is equal to <see cref="MinecraftVersion"/></returns>
+        public async Task<MinecraftVersion> GetMinecraftVersionAsync()
+        {
+            return await Client.GetMinecraftVersionAsync(MinecraftVersion);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="WrapperTypes.MinecraftVersion"/> that this <see cref="ForgeVersion"/> depends on
+        /// </summary>
+        /// <returns><see cref="WrapperTypes.MinecraftVersion"/> where its <see cref="MinecraftVersion.Version"/> is equal to <see cref="MinecraftVersion"/></returns>
+        public MinecraftVersion GetMinecraftVersion()
+        {
+            return Client.GetMinecraftVersion(MinecraftVersion);
+        }
     }
 }
