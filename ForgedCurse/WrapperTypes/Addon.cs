@@ -9,24 +9,10 @@ using static ForgedCurse.CurseJSON;
 namespace ForgedCurse
 {
     /// <summary>
-    /// Wrapper around the <see cref="CurseJSON.AddonInfo"/> class
+    /// Json-Parsed class containing info about an addon
     /// </summary>
     public class Addon//ForgeWrapper<CurseJSON.AddonInfo>
     {
-        /*/// <summary>
-        /// Constructs a new instance of <see cref="Addon"/>
-        /// </summary>
-        /// <param name="addonInfo">The <see cref="CurseJSON.AddonInfo"/> to wrap around</param>
-        /// <param name="client"></param>
-        public Addon(CurseJSON.AddonInfo addonInfo, ForgeClient client) : base(addonInfo, client)
-        {
-            Authors = WrappedType.authors.SelectReadOnly(auth => new AddonAuthor(auth, Client));
-            Attachments = WrappedType.attachments.SelectReadOnly(attach => new AddonAttachment(attach, Client));
-            LatestFiles = WrappedType.latestFiles.SelectReadOnly(file => new AddonFile(file, Client));
-            Files = WrappedType.gameVersionLatestFiles.SelectReadOnly(file => new AddonFileLite(file, Client));
-            Statistics = new AddonStatistics(addonInfo);
-        }*/
-
         /// <summary>
         /// The name of this addon
         /// </summary>
