@@ -91,8 +91,6 @@ namespace ForgedCurse
         /// <remarks>
         /// Look at the documentation of each query argument
         /// </remarks>
-        /// <param name="addonName">The name filter. If <see langword="null"/> or <see cref="String.Empty"/>, ignores this filter option</param>
-        /// <param name="gameVersion">The game version filter. If <see langword="null"/> or <see cref="String.Empty"/>, ignores this filter option</param>
         /// <param name="amount">The amount of mods to retrieve</param>
         /// <param name="offset">The amount of mods to skip (e.g: You retrieve 10, but skip 3. You skip the first 3 mods in the list, then retrieve 10</param>
         /// <param name="kind">The kind of addon you are querying (Mod, World, ...)</param>
