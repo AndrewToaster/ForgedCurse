@@ -5,13 +5,13 @@
     /// </summary>
     public enum AddonSorting
     {
-        Alphabetical = 3,
-        Updated = 2,
-        Popularity = 1,
         Featured = 0,
+        Popularity = 1,
+        Updated = 2,
+        Alphabetical = 3,
         Author = 4,
         Downloads = 5,
-        McVersion = 7,
-        MainCategory = 6
+        MainCategory = 6,
+        McVersion = 7
     }
 }

@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ForgedCurse
 {
@@ -12,17 +12,15 @@ namespace ForgedCurse
     /// </summary>
     public static class CurseJSON
     {
-        private static readonly JsonSerializerSettings _setting;
+        private static readonly JsonSerializerOptions _setting;
 
         /// <summary>
         /// Initializes the <see cref="_setting"/> value
         /// </summary>
         static CurseJSON()
         {
-            _setting = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            };
+            _setting = new();
+            _setting.Converters.Add(new )
         }
 
         /// <summary>

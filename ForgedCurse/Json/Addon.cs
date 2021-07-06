@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ForgedCurse.Enumeration;
 using static ForgedCurse.CurseJSON;
 
 namespace ForgedCurse.Json
@@ -144,9 +145,9 @@ namespace ForgedCurse.Json
         public int DefaultFileId { get; set; }
 
         /// <summary>
-        /// Honestly I have no idea what this number is
+        /// What the status of this addon is
         /// </summary>
-        public int Status { get; set; }
+        public ItemStatus Status { get; set; }
 
         /// <summary>
         /// The addon section this mod is in (e.g. 'mods' or 'resource-packs')

@@ -3,7 +3,7 @@
     /// <summary>
     /// Enumeration class containing categories for addons
     /// </summary>
-    public enum AddonCategory
+    public enum MinecraftCategory
     {
         All = 0,
         WorldGen = 406,

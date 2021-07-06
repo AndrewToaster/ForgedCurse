@@ -5,7 +5,7 @@ using System.Text;
 namespace ForgedCurse.Enumeration
 {
     /// <summary>
-    /// Indicates the release type of an something
+    /// Indicates the release type of something
     /// </summary>
     public enum ReleaseType
     {

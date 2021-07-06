@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace ForgedCurse.WrapperTypes
+namespace ForgedCurse.Json
 {
     /// <summary>
-    /// Wrapper around the <see cref="CurseJSON.ForgeVersion"/> class
+    /// Json-Parsed class containing info about a mod-loader version
     /// </summary>
-    public class ForgeVersion : ForgeWrapper<CurseJSON.ForgeVersion>
+    public class ForgeVersion
     {
-        public ForgeVersion(CurseJSON.ForgeVersion version, ForgeClient client) : base(version, client)
-        {
-        }
-
         /// <summary>
         /// The name of this FML version (e.g. 'forge-14.23.5.2838')
         /// </summary>
-        public string Name { get => WrappedType.name; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The version of Minecraft associated with this FML version
         /// </summary>
-        public string MinecraftVersion { get => WrappedType.gameVersion; }
+        [JsonPropertyName("gameVersion")]
+        public string MinecraftVersion { get; set; }
 
         /// <summary>
         /// The time where this FML version was last modified / updated
@@ -30,18 +28,20 @@ namespace ForgedCurse.WrapperTypes
         /// <remarks>
         /// This is probably the date this FML version was released
         /// </remarks>
-        public DateTime ModifiedAt { get => WrappedType.dateModified; }
+        [JsonPropertyName("dateModified")]
+        public DateTime ModifiedAt { get; set; }
 
         /// <summary>
         /// Whether or not this FML version has been tested and proved as stable
         /// </summary>
-        public bool Recommended { get => WrappedType.recommended; }
+        public bool Recommended { get; set; }
 
         /// <summary>
         /// Whether or not this FML version is the newest version released for this <see cref="MinecraftVersion"/>
         /// </summary>
-        public bool Latest { get => WrappedType.latest; }
+        public bool Latest { get; set; }
 
+        /*
         /// <summary>
         /// Returns the <see cref="WrapperTypes.MinecraftVersion"/> that this <see cref="ForgeVersion"/> depends on
         /// </summary>
@@ -59,5 +59,6 @@ namespace ForgedCurse.WrapperTypes
         {
             return Client.GetMinecraftVersion(MinecraftVersion);
         }
+        */
     }
 }

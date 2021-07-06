@@ -25,7 +25,7 @@ namespace ForgedCurse
         public AddonSearchData SearchData { get; set; }
 
         public AddonSearchIterator(ForgeClient client, string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
-            AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
+            MinecraftCategory category = MinecraftCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             _client = new HttpClient() { BaseAddress = new Uri("https://addons-ecs.forgesvc.net/api/v2/") };
             _fmlClient = client;
@@ -105,7 +105,7 @@ namespace ForgedCurse
         /// Recycles this instance by resetting the <see cref="SearchData"/> without creating a new instance
         /// </summary>
         public void Recycle(string addonName = "", string gameVersion = "", int amount = 10, int offset = 0, AddonKind kind = AddonKind.Mod,
-            AddonCategory category = AddonCategory.All, AddonSorting sorting = AddonSorting.Featured)
+            MinecraftCategory category = MinecraftCategory.All, AddonSorting sorting = AddonSorting.Featured)
         {
             SearchData = new AddonSearchData(addonName, gameVersion, amount, offset, kind, category, sorting);
         }
