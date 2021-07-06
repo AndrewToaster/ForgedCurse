@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using static ForgedCurse.CurseJSON;
 
-namespace ForgedCurse
+namespace ForgedCurse.Json
 {
     /// <summary>
     /// Json-Parsed class containing info about an addon
