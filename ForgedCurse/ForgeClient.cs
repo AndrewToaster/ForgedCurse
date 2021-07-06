@@ -35,6 +35,8 @@ namespace ForgedCurse
 
         private readonly HttpClient _client;
 
+        public AddonSection Addons { get; }
+
         /// <summary>
         /// The default <see cref="Utility.RetryPolicy"/> to use during any communication with the CurseForge API
         /// </summary>
@@ -45,12 +47,13 @@ namespace ForgedCurse
         /// </summary>
         public ForgeClient()
         {
-            _client = new HttpClient
+            _client = new()
             {
                 BaseAddress = new Uri(API_URL)
             };
 
-            RetryPolicy = new RetryPolicy(5, 5000, ex => throw ex);
+            RetryPolicy = new(5, 5000, ex => throw ex);
+            Addons = new(this);
         }
 
         #region Addon
