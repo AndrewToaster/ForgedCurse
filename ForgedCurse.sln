@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForgedCurse", "ForgedCurse\ForgedCurse.csproj", "{BBD25A9D-1AC5-4121-B8F7-3DA1258F0061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgedCurse.Tests", "ForgedCurse.Tests\ForgedCurse.Tests.csproj", "{55600E5A-1F08-4172-80AB-1FAC1A41D737}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBD25A9D-1AC5-4121-B8F7-3DA1258F0061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBD25A9D-1AC5-4121-B8F7-3DA1258F0061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBD25A9D-1AC5-4121-B8F7-3DA1258F0061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBD25A9D-1AC5-4121-B8F7-3DA1258F0061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55600E5A-1F08-4172-80AB-1FAC1A41D737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55600E5A-1F08-4172-80AB-1FAC1A41D737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55600E5A-1F08-4172-80AB-1FAC1A41D737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55600E5A-1F08-4172-80AB-1FAC1A41D737}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A96BF2B4-983C-42F7-A862-5D1F627A24E7}
+	EndGlobalSection
+EndGlobal

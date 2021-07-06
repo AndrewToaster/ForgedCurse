@@ -15,7 +15,7 @@ namespace ForgedCurse
         private static readonly JsonSerializerSettings _setting;
 
         /// <summary>
-        /// Initilizes the <see cref="_setting"/> value
+        /// Initializes the <see cref="_setting"/> value
         /// </summary>
         static CurseJSON()
         {
@@ -48,7 +48,7 @@ namespace ForgedCurse
         }
 
         #region Json Classes
-        public class ForgeVersionList
+        /*public class ForgeVersionList
         {
             public ForgeVersion[] versions;
 
@@ -56,7 +56,7 @@ namespace ForgedCurse
             {
                 return versionList.versions;
             }
-        }
+        }*/
 
         public class ForgeVersion
         {
