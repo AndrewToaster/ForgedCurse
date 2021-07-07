@@ -17,7 +17,6 @@ namespace ForgedCurse
         private const string API_ADDONS = "addon/";
         private const string API_ADDON = "addon/{0}/";
         private const string API_ADDON_DESC = "addon/{0}/description/";
-        private const string API_ADDON_HASH = "fingerprint/";
 
         internal AddonSection(ForgeClient client) : base(client)
         {
@@ -28,7 +27,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="id">The identifier of the addon</param>
         /// <returns>Information about the addon</returns>
-        public Task<Addon> RetriveAddon(string id)
+        public Task<Addon> RetriveAddon(int id)
         {
             return HttpGetJson<Addon>(string.Format(API_ADDON, id));
         }
@@ -38,7 +37,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="ids">The array containing the identifiers</param>
         /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
-        public Task<Addon[]> RetriveAddons(params string[] ids)
+        public Task<Addon[]> RetriveAddons(params int[] ids)
         {
             return HttpPostJson<Addon[]>(API_ADDONS, JsonContent.FromObject(ids));
         }
@@ -48,7 +47,7 @@ namespace ForgedCurse
         /// </summary>
         /// <param name="id">The identifier of the addon</param>
         /// <returns>HTML-formatted description of the addon</returns>
-        public Task<string> RetriveDescription(string id)
+        public Task<string> RetriveDescription(int id)
         {
             return HttpString(string.Format(API_ADDON_DESC, id), _http.GetAsync);
         }

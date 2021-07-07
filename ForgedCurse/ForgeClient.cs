@@ -1,7 +1,6 @@
 ﻿using ForgedCurse.Enumeration;
 using ForgedCurse.Utility;
 using ForgedCurse.WrapperTypes;
-using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace ForgedCurse
     /// <remarks>
     /// Documentation taken from 'https://twitchappapi.docs.apiary.io/'
     /// </remarks>
-    public class ForgeClient : IDisposable
+    public sealed class ForgeClient : IDisposable
     {
         private const string API_URL = "https://addons-ecs.forgesvc.net/api/v2/";
         private const string API_MC_VERSIONS = "minecraft/version/";

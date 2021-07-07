@@ -94,9 +94,9 @@ namespace ForgedCurse.Json
             public int AddonId { get; set; }
 
             /// <summary>
-            /// The file found
+            /// The release found
             /// </summary>
-            public AddonRelease File { get; set; }
+            public HashHitRelease File { get; set; }
 
             public bool Equals(HashHit other)
             {
