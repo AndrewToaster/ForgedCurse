@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ForgedCurse.Json;
 using ForgedCurse.Utility;
 
-namespace ForgedCurse
+namespace ForgedCurse.Sections
 {
     /// <summary>
     /// A section class containing methods to retrieve information for Addons

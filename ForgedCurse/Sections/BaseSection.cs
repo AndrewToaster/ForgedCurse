@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using ForgedCurse.Json;
 using ForgedCurse.Utility;
 
-namespace ForgedCurse
+namespace ForgedCurse.Sections
 {
     public abstract class BaseSection
     {

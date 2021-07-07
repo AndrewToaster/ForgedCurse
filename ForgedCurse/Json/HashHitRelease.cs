@@ -5,11 +5,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ForgedCurse.Enumeration;
-using ForgedCurse.WrapperTypes;
 
 namespace ForgedCurse.Json
 {
-    public class HashHitRelease
+    public class LatestRelease
     {
 
         /// <summary>

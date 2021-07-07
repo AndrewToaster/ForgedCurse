@@ -96,7 +96,7 @@ namespace ForgedCurse.Json
             /// <summary>
             /// The release found
             /// </summary>
-            public HashHitRelease File { get; set; }
+            public LatestRelease File { get; set; }
 
             public bool Equals(HashHit other)
             {

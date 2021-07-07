@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ForgedCurse.Enumeration;
-using static ForgedCurse.CurseJSON;
 
 namespace ForgedCurse.Json
 {
@@ -47,7 +46,7 @@ namespace ForgedCurse.Json
         /// <see cref="LatestFiles"/> has considerably more information about each element than <see cref="Files"/>.
         /// This is the reason for only having 3 entries (due to the size limitation)
         /// </remarks>
-        public AddonFile[] LatestFiles { get; }
+        public LatestRelease[] LatestFiles { get; }
 
         /// <summary>
         /// Returns the all the addon releases
@@ -187,31 +186,5 @@ namespace ForgedCurse.Json
         /// https://en.wikipedia.org/wiki/Clean_URL#Slug
         /// </remarks>
         public string GameSlug { get; set; }
-
-        /*
-        /// <summary>
-        /// Returns the HTML description of this addon
-        /// </summary>
-        /// <remarks>
-        /// This method accesses the <see cref="ForgeClient.GetAddonDescriptionAsync(int)"/>, rather then a field from <see cref="CurseJSON.AddonInfo"/>
-        /// </remarks>
-        /// <returns>The HTML text for the description</returns>
-        public async Task<string> GetDescriptionAsync()
-        {
-            return await Client.GetAddonDescriptionAsync(Identifier);
-        }
-
-        /// <summary>
-        /// Returns the HTML description of this addon
-        /// </summary>
-        /// <remarks>
-        /// This method accesses the <see cref="ForgeClient.GetAddonDescription(int)"/>, rather then a field from <see cref="CurseJSON.AddonInfo"/>
-        /// </remarks>
-        /// <returns>The HTML text for the description</returns>
-        public string GetDescription()
-        {
-            return Client.GetAddonDescription(Identifier);
-        }
-        */
     }
 }
