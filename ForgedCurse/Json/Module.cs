@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForgedCurse.Json
 {
-    public class AddonModule
+    public class Module
     {
         /// <summary>
         /// The name of the file in the addon

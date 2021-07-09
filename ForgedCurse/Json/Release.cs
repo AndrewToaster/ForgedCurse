@@ -8,9 +8,8 @@ using ForgedCurse.Enumeration;
 
 namespace ForgedCurse.Json
 {
-    public class LatestRelease
+    public class Release
     {
-
         /// <summary>
         /// The identifier for this addon file
         /// </summary>
@@ -67,7 +66,7 @@ namespace ForgedCurse.Json
         /// <summary>
         /// The dependencies for this addon
         /// </summary>
-        public AddonDependency[] Dependecies { get; set; }
+        public Dependency[] Dependecies { get; set; }
 
         /// <summary>
         /// Boolean value representing whether or not the file is available
@@ -81,7 +80,7 @@ namespace ForgedCurse.Json
         /// <summary>
         /// The top-most modules (folders / files) in the file archive
         /// </summary>
-        public AddonModule Modules { get; set; }
+        public Module Modules { get; set; }
 
         /// <summary>
         /// The hash for this file
@@ -98,74 +97,17 @@ namespace ForgedCurse.Json
         [JsonPropertyName("gameVersion")]
         public string[] CompatibleVersions { get; set; }
 
-        /// <summary>
-        /// The compatible versions in a more verbose format
-        /// </summary>
-        public SortableVersion[] SortableVersions { get; set; }
-
         public object InstallMetadata { get; set; }
 
-        /// <summary>
-        /// The changelog of this release
-        /// </summary>
-        public string Changelog { get; set; }
+        public object ServerPackFileId { get; set; }
 
         public bool HasInstallScript { get; set; }
-
-        [JsonPropertyName("isCompatibleWithClient")]
-        public bool CompatibleWithClient { get; set; }
-
-        public int CategorySectionPackageType { get; set; }
-
-        public int RestrictProjectFileAccess { get; set; }
-
-        /// <summary>
-        /// The status of the addon
-        /// </summary>
-        public ItemStatus ProjectStatus { get; set; }
-
-        public int RenderCacheId { get; set; }
-
-        public object FileLegacyMappingId { get; set; }
-
-        /// <summary>
-        /// The identifier of the addon
-        /// </summary>
-        public int ProjectId { get; set; }
-
-        public object ParentProjectFileId { get; set; }
-
-        public object ParentFileLegacyMappingId { get; set; }
-
-        public object FileTypeId { get; set; }
-
-        public object ExposeAsAlternative { get; set; }
-
-        /// <summary>
-        /// For the hash that was used to find this release, look at <see cref="Hash"/>
-        /// </summary>
-        [JsonPropertyName("packageFingerprintId")]
-        public uint PackageHashId { get; set; }
 
         /// <summary>
         /// The date at which the compatible version of the game was released
         /// </summary>
         [JsonPropertyName("gameVersionDateReleased")]
         public DateTime GameVersionReleaseDate { get; set; }
-
-        public int GameVersionMappingId { get; set; }
-
-        public int GameVersionId { get; set; }
-
-        /// <summary>
-        /// The identifier of the game this addon is for
-        /// </summary>
-        public int GameId { get; set; }
-
-        [JsonPropertyName("isServerPack")]
-        public bool ServerPack { get; set; }
-
-        public object ServerPackFileId { get; set; }
 
         public object GameVersionFlavour { get; set; }
     }

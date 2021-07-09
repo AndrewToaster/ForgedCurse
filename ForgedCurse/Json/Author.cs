@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForgedCurse.Json
 {
-    public class AddonAuthor
+    public class Author
     {
         /// <summary>
         /// The name of the author
@@ -20,7 +20,7 @@ namespace ForgedCurse.Json
         public string Url { get; set; }
 
         /// <summary>
-        /// The addon id this instance of <see cref="AddonAuthor"/> is associated with
+        /// The addon id this instance of <see cref="Author"/> is associated with
         /// </summary>
         public int ProjectId { get; set; }
 

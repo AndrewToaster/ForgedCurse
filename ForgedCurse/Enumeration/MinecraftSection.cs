@@ -1,9 +1,9 @@
 ﻿namespace ForgedCurse.Enumeration
 {
     /// <summary>
-    /// Indicates the kind of an addon
+    /// Indicates the kind of section an addon belongs in
     /// </summary>
-    public enum AddonKind
+    public enum MinecraftSection
     {
         Mod = 6,
         ResourcePack = 12,

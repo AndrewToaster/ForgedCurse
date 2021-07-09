@@ -32,12 +32,12 @@ namespace ForgedCurse.Json
         /// <summary>
         /// The authors that are associated with this addon
         /// </summary>
-        public AddonAuthor[] Authors { get; set; }
+        public Author[] Authors { get; set; }
 
         /// <summary>
         /// The attachments that come with this addon (e.g. Images)
         /// </summary>
-        public AddonAttachment[] Attachments { get; set; }
+        public Attachment[] Attachments { get; set; }
 
         /// <summary>
         /// Returns the 3 latest addon releases
@@ -56,7 +56,7 @@ namespace ForgedCurse.Json
         /// This is the reason for having all entries (due to the size limitation)
         /// </remarks>
         [JsonPropertyName("gameVersionLatestFiles")]
-        public GameVersionLatestFile[] Files { get; set; }
+        public Release[] Files { get; set; }
 
         /// <summary>
         /// The date this addon was created (first ever release date)
@@ -68,7 +68,7 @@ namespace ForgedCurse.Json
         /// The date this addon was released
         /// </summary>
         /// <remarks>
-        /// The release date is not similiar to the date created, rather the date it was last modified
+        /// The release date is not similar to the date created, rather the date it was last modified
         /// </remarks>
         [JsonPropertyName("dateReleased")]
         public DateTime ReleasedAt { get; set; }
@@ -89,8 +89,8 @@ namespace ForgedCurse.Json
         /// Whether or not this addon is available
         /// </summary>
         /// <remarks>
-        /// Addon becomes unavailable due to multiple reaons (created marked it that way; it was abandoned; ...).
-        /// Either way this means it will not show-up in search can be only accessed using its url
+        /// Addon becomes unavailable due to multiple reasons (created marked it that way; it was abandoned; ...).
+        /// Either way this means it will not show-up in search can be only accessed using its URL
         /// </remarks>
         [JsonPropertyName("isAvailable")]
         public bool Available { get; set; }
@@ -152,7 +152,7 @@ namespace ForgedCurse.Json
         /// The addon section this mod is in (e.g. 'mods' or 'resource-packs')
         /// </summary>
         [JsonPropertyName("categorySection")]
-        public AddonCategorySection AddonType { get; set; }
+        public CategorySection AddonType { get; set; }
 
         /// <summary>
         /// The categories in which this mod belongs in

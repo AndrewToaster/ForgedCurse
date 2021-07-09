@@ -1,39 +1,80 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ForgedCurse.Sections
 {
     public class ForgeVersion
     {
-        // Error
-        Yo, dud, finish this class
-        // Error
+        [JsonPropertyName("id")]
+        public int Identifier { get; set; }
 
-        public int id { get; set; }
-        public int gameVersionId { get; set; }
-        public int minecraftGameVersionId { get; set; }
-        public string forgeVersion { get; set; }
-        public string name { get; set; }
-        public int type { get; set; }
-        public string downloadUrl { get; set; }
-        public string filename { get; set; }
-        public int installMethod { get; set; }
-        public bool latest { get; set; }
-        public bool recommended { get; set; }
-        public bool approved { get; set; }
-        public DateTime dateModified { get; set; }
-        public string mavenVersionString { get; set; }
-        public string versionJson { get; set; }
-        public string librariesInstallLocation { get; set; }
-        public string minecraftVersion { get; set; }
-        public object additionalFilesJson { get; set; }
-        public int modLoaderGameVersionId { get; set; }
-        public int modLoaderGameVersionTypeId { get; set; }
-        public int modLoaderGameVersionStatus { get; set; }
-        public int modLoaderGameVersionTypeStatus { get; set; }
-        public int mcGameVersionId { get; set; }
-        public int mcGameVersionTypeId { get; set; }
-        public int mcGameVersionStatus { get; set; }
-        public int mcGameVersionTypeStatus { get; set; }
-        public object installProfileJson { get; set; }
+        public int GameVersionId { get; set; }
+        public int MinecraftGameVersionId { get; set; }
+
+        /// <summary>
+        /// The string representation of the numerical version
+        /// </summary>
+        [JsonPropertyName("forgeVersion")]
+        public string VersionString { get; set; }
+
+        /// <summary>
+        /// The string representation of the version
+        /// </summary>
+        /// <remarks>
+        /// This appears to be <see cref="VersionString"/> with the 'forge-' prefix
+        /// </remarks>
+        public string Name { get; set; }
+
+        public int Type { get; set; }
+
+        /// <summary>
+        /// The URL link for the FML file
+        /// </summary>
+        public string DownloadUrl { get; set; }
+
+        /// <summary>
+        /// The name of the JAR file
+        /// </summary>
+        public string FileName { get; set; }
+
+        public int InstallMethod { get; set; }
+
+        /// <summary>
+        /// Whether or not this is the latest release
+        /// </summary>
+        public bool Latest { get; set; }
+
+        /// <summary>
+        /// Whether or not this version is recommended (i.e. Is stable and is not in Alpha/Beta stage)
+        /// </summary>
+        public bool Recommended { get; set; }
+
+        public bool Approved { get; set; }
+
+        /// <summary>
+        /// The release date of this FML version
+        /// </summary>
+        [JsonPropertyName("dateModified")]
+        public DateTime ReleaseDate { get; set; }
+
+        public string MavenVersionString { get; set; }
+
+        /// <summary>
+        /// String representation of this FML version's JSON file
+        /// </summary>
+        public string VersionJson { get; set; }
+
+        public string LibrariesInstallLocation { get; set; }
+        public string MinecraftVersion { get; set; }
+        public object AdditionalFilesJson { get; set; }
+        public int ModLoaderGameVersionId { get; set; }
+        public int ModLoaderGameVersionTypeId { get; set; }
+        public int ModLoaderGameVersionStatus { get; set; }
+        public int ModLoaderGameVersionTypeStatus { get; set; }
+        public int McGameVersionId { get; set; }
+        public int McGameVersionTypeId { get; set; }
+        public int McGameVersionStatus { get; set; }
+        public int McGameVersionTypeStatus { get; set; }
+        public object InstallProfileJson { get; set; }
     }
 }

@@ -23,14 +23,14 @@ namespace ForgedCurse.Sections
         {
         }
 
-        public Task<AddonRelease[]> RetrieveReleases(int id)
+        public Task<Release[]> RetrieveReleases(int id)
         {
-            return HttpGetJson<AddonRelease[]>(string.Format(API_ADDON_FILES, id));
+            return HttpGetJson<Release[]>(string.Format(API_ADDON_FILES, id));
         }
 
-        public Task<AddonRelease> RetrieveRelease(int id, int releaseId)
+        public Task<Release> RetrieveRelease(int id, int releaseId)
         {
-            return HttpGetJson<AddonRelease>(string.Format(API_ADDON_FILE, id, releaseId));
+            return HttpGetJson<Release>(string.Format(API_ADDON_FILE, id, releaseId));
         }
 
         public Task<HashSearchResult> SearchHashes(params uint[] hashes)

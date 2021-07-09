@@ -7,7 +7,7 @@ using ForgedCurse.Enumeration;
 
 namespace ForgedCurse.Json
 {
-    public class AddonDependency
+    public class Dependency
     {
         /// <summary>
         /// The identifier of the addon

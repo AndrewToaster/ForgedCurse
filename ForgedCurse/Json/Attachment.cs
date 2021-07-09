@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForgedCurse.Json
 {
-    public class AddonAttachment
+    public class Attachment
     {
         /// <summary>
         /// The identifier of the attachment
