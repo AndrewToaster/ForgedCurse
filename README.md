@@ -1,4 +1,7 @@
 ![Icon](Icon.png)
+# OBSOLETE
+This is an outdated read-me file, 90% of what's here doesn't apply. I'll update this file later!
+
 # ForgedCurse
 A C# wrapper around the CurseForge API
 
