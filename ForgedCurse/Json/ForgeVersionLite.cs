@@ -17,6 +17,7 @@ namespace ForgedCurse.Json
         /// <summary>
         /// The game version this FML version is associated with
         /// </summary>
+        [JsonPropertyName("gameVersion")]
         public string Version { get; set; }
 
         /// <summary>

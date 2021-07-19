@@ -9,10 +9,11 @@ namespace ForgedCurse.Json
 {
     public class Author
     {
-        /// <summary>
-        /// The name of the author
-        /// </summary>
-        public string Name { get; set; }
+
+		/// <summary>
+		/// The name of the author
+		/// </summary>
+		public string Name { get; set; }
 
         /// <summary>
         /// The link of the member page of Curseforge for this author
@@ -34,18 +35,18 @@ namespace ForgedCurse.Json
         /// </summary>
         public int UserId { get; set; }
 
-        /// <summary>
-        /// The id of the author on Twitch
-        /// </summary>
-        /// <remarks>
-        /// This is most likely a legacy id from before the migration from Twitch to Curseforge
-        /// </remarks>
-        public int TwitchId { get; set; }
+		/// <summary>
+		/// The id of the author on Twitch
+		/// </summary>
+		/// <remarks>
+		/// This is most likely a legacy id from before the migration from Twitch to Curseforge
+		/// </remarks>
+		public int? TwitchId { get; set; }
 
-        /// <summary>
-        /// The role of the author for the associated addon (see <see cref="ProjectId"/>)
-        /// </summary>
-        [JsonPropertyName("projectTitleId")]
+		/// <summary>
+		/// The role of the author for the associated addon (see <see cref="ProjectId"/>)
+		/// </summary>
+		[JsonPropertyName("projectTitleId")]
         public int? RoleId { get; set; }
 
         /// <summary>

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ForgedCurse.Enumeration
 {
+    /// <summary>
+    /// Indicates the status of something on CurseForge
+    /// </summary>
     public enum ItemStatus
     {
         Normal = 4,

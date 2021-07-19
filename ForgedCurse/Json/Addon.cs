@@ -11,7 +11,7 @@ namespace ForgedCurse.Json
     /// <summary>
     /// Json-Parsed class containing info about an addon
     /// </summary>
-    public class Addon//ForgeWrapper<CurseJSON.AddonInfo>
+    public class Addon
     {
         /// <summary>
         /// The name of this addon
@@ -56,7 +56,7 @@ namespace ForgedCurse.Json
         /// This is the reason for having all entries (due to the size limitation)
         /// </remarks>
         [JsonPropertyName("gameVersionLatestFiles")]
-        public Release[] Files { get; set; }
+        public GameVersionLatestRelease[] Files { get; set; }
 
         /// <summary>
         /// The date this addon was created (first ever release date)

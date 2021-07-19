@@ -8,9 +8,8 @@ using ForgedCurse.Json;
 
 namespace ForgedCurse.Utility
 {
-    public sealed class UrlQueryBuilder
+    public sealed class AddonQueryBuilder
     {
-        private readonly StringBuilder _sb;
         private const string API_BASE = "https://addons-ecs.forgesvc.net/api/v2/addon/search?";
 
         public string Version { get; set; }
@@ -22,54 +21,49 @@ namespace ForgedCurse.Utility
         public int Offset { get; set; }
         public int Game { get; set; }
 
-        public UrlQueryBuilder()
-        {
-            _sb = new();
-        }
-
-        public UrlQueryBuilder WithVersion(string version)
+        public AddonQueryBuilder WithVersion(string version)
         {
             Version = version;
             return this;
         }
 
-        public UrlQueryBuilder WithName(string name)
+        public AddonQueryBuilder WithName(string name)
         {
             Name = name;
             return this;
         }
 
-        public UrlQueryBuilder WithAmount(int amount)
+        public AddonQueryBuilder WithAmount(int amount)
         {
             Amount = amount;
             return this;
         }
 
-        public UrlQueryBuilder WithOffset(int offset)
+        public AddonQueryBuilder WithOffset(int offset)
         {
             Offset = offset;
             return this;
         }
 
-        public UrlQueryBuilder WithSorting(AddonSorting sorting)
+        public AddonQueryBuilder WithSorting(AddonSorting sorting)
         {
             Sorting = sorting;
             return this;
         }
 
-        public UrlQueryBuilder WithSection(int sectionId)
+        public AddonQueryBuilder WithSection(int sectionId)
         {
             Section = sectionId;
             return this;
         }
 
-        public UrlQueryBuilder WithCategory(int categoryId)
+        public AddonQueryBuilder WithCategory(int categoryId)
         {
             Category = categoryId;
             return this;
         }
 
-        public UrlQueryBuilder WithGame(int gameId)
+        public AddonQueryBuilder WithGame(int gameId)
         {
             Game = gameId;
             return this;
@@ -77,6 +71,8 @@ namespace ForgedCurse.Utility
 
         public string Build()
         {
+            StringBuilder _sb = new();
+
             _sb.Append(API_BASE)
                 .Append("&categoryId=").Append(Category)
                 .Append("&gameId=").Append(Game)
@@ -93,5 +89,10 @@ namespace ForgedCurse.Utility
 
             return _sb.ToString();
         }
-    }
+
+		public override string ToString()
+		{
+            return Build();
+		}
+	}
 }

@@ -36,11 +36,21 @@ namespace ForgedCurse.Sections
         /// Retries the information about addons specified using an array of ids
         /// </summary>
         /// <param name="ids">The array containing the identifiers</param>
-        /// <returns>Retrieved <see cref="CurseJSON.AddonInfo"/></returns>
+        /// <returns>Retrieved <see cref="Addon"/> array</returns>
         public Task<Addon[]> RetriveAddons(params int[] ids)
         {
             return HttpPostJson<Addon[]>(API_ADDONS, JsonContent.FromObject(ids));
         }
+
+        /// <summary>
+        /// Searches for addons using the <see cref="AddonQueryBuilder"/> for building the search URL
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns>Found <see cref="Addon"/> array</returns>
+        public Task<Addon[]> SearchAddons(AddonQueryBuilder builder)
+		{
+            return HttpGetJson<Addon[]>(builder.Build());
+		}
 
         /// <summary>
         /// Retries the HTML-formatted description of the specified addon

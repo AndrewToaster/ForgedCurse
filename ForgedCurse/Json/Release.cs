@@ -80,7 +80,7 @@ namespace ForgedCurse.Json
         /// <summary>
         /// The top-most modules (folders / files) in the file archive
         /// </summary>
-        public Module Modules { get; set; }
+        public Module[] Modules { get; set; }
 
         /// <summary>
         /// The hash for this file

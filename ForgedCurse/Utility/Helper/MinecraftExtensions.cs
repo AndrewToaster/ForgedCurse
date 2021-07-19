@@ -9,12 +9,12 @@ namespace ForgedCurse.Utility.Helper
 {
     public static class MinecraftExtensions
     {
-        public static UrlQueryBuilder WithSection(this UrlQueryBuilder builder, MinecraftSection section)
+        public static AddonQueryBuilder WithSection(this AddonQueryBuilder builder, MinecraftSection section)
         {
             return builder.WithSection((int)section);
         }
 
-        public static UrlQueryBuilder WithCategory(this UrlQueryBuilder builder, MinecraftCategory category)
+        public static AddonQueryBuilder WithCategory(this AddonQueryBuilder builder, MinecraftCategory category)
         {
             return builder.WithCategory((int)category);
         }

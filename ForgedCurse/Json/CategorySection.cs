@@ -16,7 +16,7 @@ namespace ForgedCurse.Json
 
         public int PackageType { get; set; }
 
-        public int Path { get; set; }
+        public string Path { get; set; }
 
         public string InitialInclusionPattern { get; set; }
 

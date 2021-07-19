@@ -20,6 +20,7 @@ namespace ForgedCurse
 
         public AddonSection Addons { get; }
         public FileSection Files { get; }
+        public MincraftSection Minecraft { get; }
 
         /// <summary>
         /// The default <see cref="Utility.RetryPolicy"/> to use during any communication with the CurseForge API
@@ -33,6 +34,7 @@ namespace ForgedCurse
             RetryPolicy = new(5, 5000, ex => throw ex);
             SerializerSettings = new()
             {
+                PropertyNameCaseInsensitive = true
             };
         }
 
@@ -47,6 +49,7 @@ namespace ForgedCurse
             };
             Addons = new(this);
             Files = new(this);
+            Minecraft = new(this);
         }
 
         /// <summary>
