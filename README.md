@@ -12,27 +12,28 @@ It is as easy as that, now you have access to the API.
 
 ```csharp
 // Retrieves information about the mod with id 238222 (Just Enough Items)
-Addon addon = client.GetAddon(238222);
+Addon addon = client.Addons.RetrieveAddon(238222);
 
 // Prints the first author of the mod
-Console.WriteLine(addon.Authors.First().Name);
+Console.WriteLine(addon.Authors[0].Name);
 ```
 
-# Fingerprinting
-I don't have the education to properly explain what fingerprinting is, but it is a way to provide a hash for a addon package. It is possible to use these hashes to retrieve information
-about the addons and such. For anyone wondering if you can compute a fingerprint? Yes, quite easily.
+# Fingerprinting / Hashing
+CurseForge uses MurmurrHash2 as the hashing method for addons. This API exposes
+the `ForgeHash` class for computing hashes
 ```csharp
 // Reads the contents of a mod file
-Span<byte> data = File.ReadAllBytes("C:/jei.jar");
+byte[] data = File.ReadAllBytes("C:/jei.jar");
 
-// Compute the fingerprint using the murmurhash2
-long fingerprint = Fingerprinting.ComputeFingerprint(data);
+// Compute the fingerprint using the Murmurrhash2
+uint hash = ForgeHash.ComputeHash(data);
 
-// Retrieve addon based on the provided fingerprint
-Addon addon = client.GetAddonFileFromFingerprint(fingerprint);
+// Retrieve the search result based on the provided hash
+HashSearchResult result = client.Files.SearchHashes(hash);
+
+// Get the file from the hash (if found)
+Release modRelease = result.Hits[0].File;
 ```
-Or using the path to the JAR file
-```cs
-// Automatically computes a fingerprint and gets an Addon from the client
-Addon addon = client.GetAddonFileFromFile("C:/jei.jar");
-```
+
+# NuGet
+We are now on NuGet.org. You can find the packages on https://www.nuget.org/packages/ForgedCurse/

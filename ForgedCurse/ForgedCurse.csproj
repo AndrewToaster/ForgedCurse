@@ -1,12 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>2.0.0</Version>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Description>A C# around the CurseForge API</Description>
+    <Copyright>Copyright (c) 2020 AndrewToasterr</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/AndrewToaster/ForgedCurse</RepositoryUrl>
+    <RepositoryType>Source</RepositoryType>
+    <PackageTags>c#,AndrewToasterr,CurseForge,Minecraft,Modding,API</PackageTags>
+    <PackageReleaseNotes>A major System.Text.Json re-write</PackageReleaseNotes>
+    <Company>AndrewToasterr</Company>
+    <Authors>AndrewToasterr</Authors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.0" />
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

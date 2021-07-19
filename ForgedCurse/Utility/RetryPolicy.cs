@@ -103,7 +103,6 @@ namespace ForgedCurse.Utility
         /// Executes a method using this <see cref="RetryPolicy"/>
         /// </summary>
         /// <param name="method">The method to execute</param>
-        /// <param name="retVal">The value returned by the executed method</param>
         /// <returns>Whether or not the method ran within the allowed <see cref="RetryCount"/></returns>
         public PolicyResult<T> ExecutePolicy<T>(Func<T> method)
         {
@@ -131,7 +130,6 @@ namespace ForgedCurse.Utility
         /// Asynchronously executes a method using this <see cref="RetryPolicy"/>
         /// </summary>
         /// <param name="method">The method to execute</param>
-        /// <param name="retVal">The value returned by the executed method</param>
         /// <returns>Whether or not the method ran within the allowed <see cref="RetryCount"/></returns>
         public async Task<PolicyResult<T>> ExecutePolicyAsync<T>(Func<Task<T>> method)
         {
@@ -141,12 +139,12 @@ namespace ForgedCurse.Utility
             {
                 try
                 {
-                    return PolicyResult<T>.Success(await method());
+                    return PolicyResult<T>.Success(await method().ConfigureAwait(false));
                 }
                 catch (Exception e)
                 {
                     lastErr = e;
-                    await Task.Delay(DelayAmount);
+                    await Task.Delay(DelayAmount).ConfigureAwait(false);
                 }
             }
 
@@ -183,6 +181,11 @@ namespace ForgedCurse.Utility
             public static implicit operator T(PolicyResult<T> policyResult)
             {
                 return policyResult.Value;
+            }
+
+            public static implicit operator bool(PolicyResult<T> policyResult)
+            {
+                return policyResult.IsSuccess;
             }
 
             /// <summary>
