@@ -34,3 +34,6 @@ HashSearchResult result = client.Files.SearchHashes(hash);
 // Get the file from the hash (if found)
 Release modRelease = result.Hits[0].File;
 ```
+
+# NuGet
+We are now on NuGet.org. You can find the packages on https://www.nuget.org/packages/ForgedCurse/
