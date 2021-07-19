@@ -11,6 +11,8 @@
     <RepositoryType>Source</RepositoryType>
     <PackageTags>c#,AndrewToasterr,CurseForge,Minecraft,Modding,API</PackageTags>
     <PackageReleaseNotes>A major System.Text.Json re-write</PackageReleaseNotes>
+    <Company>AndrewToasterr</Company>
+    <Authors>AndrewToasterr</Authors>
   </PropertyGroup>
 
   <ItemGroup>
